@@ -1,0 +1,68 @@
+<div class="wrapper">
+
+  <div class="sidebar-logo" style="display:flex;justify-content:space-between;width:100%">
+    <a href="">
+      <img src="assets/icon.png" alt="logo">
+      <h1 class="sidebar-h1">VMV <sup style="font-size: 11px;">TM</sup><br />
+        <span class="version">{{ applicationVersion }}</span>
+      </h1>
+    </a>
+  </div>
+
+  <div class="status">
+    <!-- <div *ngIf="!!serverConnectionLight" class="server-status green"></div>
+    <div *ngIf="!serverConnectionLight" class="server-status red"></div> -->
+  </div>
+
+  <ul nz-menu nzMode="inline" nzTheme="dark" [nzInlineCollapsed]="_commonService.isSidebarCollapsed">
+    <ng-container *ngFor="let menu of sidebarservice.menuitems; index as i">
+
+      <li *ngIf="menu.id == 101" nz-menu-item [nzMatchRouter]="true" (click)="sidebarservice.openHandler(menu.index)"
+        class="sidemenu_border" routerLink="/{{menu.name}}" [title]="_commonService.isSidebarCollapsed ? menu.DisplayName : ''">
+        <i nz-icon [nzType]="menu.nzicon"></i>
+        <span>{{menu.DisplayName}}</span>
+      </li>
+
+      <li *ngIf="menu.id == 102" nz-menu-item [nzMatchRouter]="true" (click)="sidebarservice.openHandler(menu.index)"
+      class="sidemenu_border" routerLink="/{{menu.name}}" [title]="_commonService.isSidebarCollapsed ? menu.DisplayName : ''">
+      <i nz-icon [nzType]="menu.nzicon"></i>
+      <span>{{menu.DisplayName}}</span>
+      
+            <li *ngIf="menu.id == 103" nz-menu-item [nzMatchRouter]="true" (click)="sidebarservice.openHandler(menu.index)"
+            class="sidemenu_border" routerLink="/{{menu.name}}" [title]="_commonService.isSidebarCollapsed ? menu.DisplayName : ''">
+            <i nz-icon [nzType]="menu.nzicon"></i>
+            <span>{{menu.DisplayName}}</span>
+
+      <li *ngIf="menu.id == 104" nz-menu-item [nzMatchRouter]="true" (click)="sidebarservice.openHandler(menu.index)"
+      class="sidemenu_border" routerLink="/{{menu.name}}" [title]="_commonService.isSidebarCollapsed ? menu.DisplayName : ''">
+      <i nz-icon [nzType]="menu.nzicon"></i>
+      <span>{{menu.DisplayName}}</span>
+
+      <li *ngIf="menu.id == 105" nz-menu-item [nzMatchRouter]="true" (click)="sidebarservice.openHandler(menu.index)"
+      class="sidemenu_border" routerLink="/{{menu.name}}" [title]="_commonService.isSidebarCollapsed ? menu.DisplayName : ''">
+      <i nz-icon [nzType]="menu.nzicon"></i>
+      <span>{{menu.DisplayName}}</span>
+
+      <li *ngIf="menu.id == 106" nz-menu-item [nzMatchRouter]="true" (click)="sidebarservice.openHandler(menu.index)"
+      class="sidemenu_border" routerLink="/{{menu.name}}" [title]="_commonService.isSidebarCollapsed ? menu.DisplayName : ''">
+      <i nz-icon [nzType]="menu.nzicon"></i>
+      <span>{{menu.DisplayName}}</span>
+
+      <li *ngIf="menu.id == 107" nz-menu-item [nzMatchRouter]="true" (click)="sidebarservice.openHandler(menu.index)"
+      class="sidemenu_border" routerLink="/{{menu.name}}" [title]="_commonService.isSidebarCollapsed ? menu.DisplayName : ''">
+      <i nz-icon [nzType]="menu.nzicon"></i>
+      <span>{{menu.DisplayName}}</span>
+
+
+
+
+
+
+
+    </li>
+
+      
+
+    </ng-container>
+  </ul>
+</div>

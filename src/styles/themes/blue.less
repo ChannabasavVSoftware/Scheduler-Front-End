@@ -1,0 +1,388 @@
+@base-color:#0f222d;
+@darker-shade-1: #0f222d;
+@darker-shade-2: #0a1820;
+@lighter-shade-1: #22313a;
+@lighter-shade-2: #1e2a31;
+@accent-color-1: #0066CC;
+@accent-color-2: #00CC66;
+@sidebar-color: #050606;
+@primary-text-color: #fff;
+@primary-color: #0293c4;
+@error-color: #ff0000;
+@darker-text: darken(@primary-text-color, 10%);
+@lighter-text: lighten(@primary-text-color, 10%);
+@disabled-color: lighten(@lighter-shade-1, 10%);
+@mask-bg: #1a1b1bbd;
+@height-base: 24px;
+@height-lg: 40px;
+@height-sm: 24px;
+@input-bg-lighter: #0a1820;
+@input-border-lighter: #41404096;
+@background-color-light: #22313a;
+@dashboard-label-color:rgb(95, 94, 94);
+
+// Scroll Bar Colors
+@scroll-bar-bg: #2c2f32; // Darker shade, similar to your table background
+@scroll-bar-thumb-bg: #4a4a4a; // Slightly lighter shade for the thumb
+@scroll-bar-thumb-hover-bg: #666666; // Thumb color on hover
+@scroll-bar-thumb-active-bg: #666666; // Thumb color on active
+@scroll-bar-track-bg: #1e1e1e; // Track color
+
+
+// Common //
+
+@popover-customize-border-color: @background-color-light;
+@body-background: @lighter-shade-1;
+@component-background: @lighter-shade-1;
+@text-color: fade(@primary-text-color, 85%);
+@text-color-secondary: fade(@primary-text-color, 45%);
+@text-color-inverse: @primary-text-color;
+@icon-color: inherit;
+@icon-color-hover: fade(@primary-text-color, 75%);
+@heading-color: fade(@primary-text-color, 85%);
+@text-color-dark: fade(@primary-text-color, 85%);
+@text-color-secondary-dark: fade(@primary-text-color, 65%);
+@text-selection-bg: @primary-text-color;
+@btn-primary-bg: @primary-color;
+@padding-xss: 10px; // more small
+
+
+// Layout 
+@layout-body-background: @lighter-shade-1;
+@layout-header-background: @darker-shade-1;
+@layout-footer-background: @lighter-shade-2;
+@layout-sider-background: @darker-shade-1;
+@layout-trigger-background: @darker-shade-2;
+@layout-footer-padding: 5px 10px;
+@layout-footer-background: @darker-shade-1;
+@layout-header-padding: 0 10px;
+@layout-header-height: 48px;
+
+
+// Link 
+
+// LINK
+@link-color: @primary-text-color;
+@link-hover-color: @primary-text-color;
+@link-active-color: @primary-text-color;
+@link-decoration: none;
+@link-hover-decoration: none;
+@link-focus-decoration: none;
+@link-focus-outline: 0;
+
+// Menu theme
+@menu-dark-color: @lighter-text;
+@menu-dark-danger-color: @error-color;
+@menu-dark-bg: @layout-header-background;
+@menu-dark-arrow-color: @primary-text-color;
+@menu-dark-inline-submenu-bg: @darker-shade-2;
+@menu-dark-highlight-color: @primary-text-color;
+@menu-dark-item-active-bg: @primary-color;
+@menu-dark-item-active-danger-bg: @error-color;
+@menu-dark-selected-item-icon-color: @primary-text-color;
+@menu-dark-selected-item-text-color: @primary-text-color;
+@menu-dark-item-hover-bg: @darker-shade-2;
+@menu-highlight-color: @primary-text-color;
+@dropdown-menu-hover-bg: darken(@lighter-shade-1, 5%);
+@dropdown-menu-hover-color: @lighter-shade-1;
+
+
+// Table // 
+@table-padding-vertical: 8px;
+@table-padding-horizontal: 5px;
+@table-bg: @darker-shade-1;
+@table-header-bg: @darker-shade-2;
+@table-header-color: @primary-text-color;
+@table-header-sort-bg: @lighter-shade-1;
+@table-body-sort-bg: @lighter-shade-2;
+@table-selected-row-hover-bg: @lighter-shade-1;
+@table-filter-dropdown-bg: @lighter-shade-1;
+@table-selected-row-color: inherit;
+@table-selected-row-bg: @darker-shade-2;
+@table-body-selected-sort-bg: @darker-shade-1;
+@table-selected-row-hover-bg: @darker-shade-2;
+@table-row-hover-bg: @darker-shade-2;
+@table-padding-horizontal-sm: 5px;
+@table-padding-vertical-sm: 1px;
+
+// Select // ---
+@select-border-color: @lighter-shade-1;
+@select-item-selected-color: @primary-text-color;
+@select-dropdown-bg: @lighter-shade-1;
+@select-item-selected-bg: @darker-shade-1;
+@select-item-active-bg: @darker-shade-1;
+
+// Input // ---
+@input-placeholder-color: hsv(0, 0, 75%);
+@input-color: @text-color;
+@input-icon-color: @primary-text-color;
+@input-border-color: @input-border-lighter ;
+@input-bg: @input-bg-lighter ;
+@input-disabled-bg: @disabled-color;
+@input-disabled-color: @disabled-color;
+@control-padding-horizontal: 5px;
+@select-dropdown-height: 20px;
+@form-item-margin-bottom: 10px;
+@form-item-trailing-colon: false;
+@checkbox-color: @darker-shade-2;
+@radio-solid-checked-color: @lighter-shade-2;
+
+
+// Border color
+@border-color-base: hsv(0, 0, 85%); // base border outline a component
+@border-color-split: @lighter-shade-1; // split border inside a component
+@border-color-inverse: @lighter-shade-1;
+@border-width-base: 1px; // width of the border for a component
+@border-style-base: solid; // style of a components border
+
+// Tabs 
+@tabs-card-head-background: @lighter-shade-2;
+@tabs-card-tab-active-border-top: 2px solid transparent;
+
+// Modal
+@modal-header-padding-horizontal: 10px;
+@modal-header-padding-vertical : 5px;
+@modal-body-padding: 5px 10px;
+@modal-header-bg: @darker-shade-1;
+@modal-header-padding: @modal-header-padding-vertical @modal-header-padding-horizontal;
+@modal-header-border-width: @border-width-base;
+@modal-header-border-style: @border-style-base;
+@modal-header-title-line-height: 22px;
+@modal-header-border-color-split: @border-color-split;
+@modal-header-close-size: 30px;
+@modal-content-bg: @component-background;
+@modal-heading-color: @primary-text-color;
+@modal-close-color: @input-border-lighter;
+@modal-footer-bg: @darker-shade-1;
+@modal-mask-bg: @darker-shade-2;
+
+// Scroll Bar Colors
+@scroll-bar-bg: #2c2f32; // Darker shade, similar to your table background
+@scroll-bar-thumb-bg: #4a4a4a; // Slightly lighter shade for the thumb
+@scroll-bar-thumb-hover-bg: #666666; // Thumb color on hover
+@scroll-bar-thumb-active-bg: #666666; // Thumb color on active
+@scroll-bar-track-bg: #1e1e1e; // Track color
+@table-sticky-scroll-bar-bg: @scroll-bar-bg;
+@table-sticky-scroll-bar-radius: 4px;
+@dropdown-menu-scrollbar-bg: @scroll-bar-bg;
+@dropdown-menu-scrollbar-thumb-bg: @scroll-bar-thumb-bg;
+@modal-scrollbar-bg: @scroll-bar-bg;
+@modal-scrollbar-thumb-bg: @scroll-bar-thumb-bg;
+@transfer-scrollbar-bg: @scroll-bar-bg;
+@transfer-scrollbar-thumb-bg: @scroll-bar-thumb-bg;
+@scroll-bar-width: 6px; 
+@scroll-bar-height: 6px;
+@table-sticky-scroll-bar-width: @scroll-bar-width;
+@table-sticky-scroll-bar-height: @scroll-bar-height;
+@dropdown-menu-scrollbar-width: @scroll-bar-width;
+@dropdown-menu-scrollbar-height: @scroll-bar-height;
+@modal-scrollbar-width: @scroll-bar-width;
+@modal-scrollbar-height: @scroll-bar-height;
+@transfer-scrollbar-width: @scroll-bar-width;
+@transfer-scrollbar-height: @scroll-bar-height;
+@menu-item-vertical-margin: 0px;
+@menu-item-padding-horizontal: 10px;
+@menu-inline-toplevel-item-height: 45px;
+@avatar-bg: @lighter-shade-1;
+@layout-trigger-height: 32px;
+@input-addon-bg: @darker-shade-2;
+
+// Collapse //
+@collapse-header-padding: 5px;
+@collapse-header-padding-extra: 40px;
+@collapse-header-bg: @darker-shade-2;
+@collapse-content-padding: 10px;
+@collapse-content-bg: @lighter-shade-1;
+@collapse-header-arrow-left: 16px;
+
+// Transfer // 
+@transfer-item-padding-vertical: 2px;
+@transfer-header-height: 30px;
+@transfer-list-search-icon-top: 6px;
+@transfer-item-hover-bg: @lighter-shade-2;
+@checkbox-check-bg: @lighter-shade-1;
+@btn-group-border: @input-border-color;
+
+
+// Card
+// ---
+@card-head-color: @primary-text-color;
+@card-head-background: @darker-shade-2;
+@card-head-padding: 10px;
+@card-head-height: 30px;
+@card-padding-base: 5px;
+@card-background: @darker-shade-1;
+@card-shadow: 0 1px 2px -2px rgba(73, 73, 73, 0.16), 0 3px 6pxrgba(58, 58, 58, 0.12),
+  0 5px 12px 4px rgba(44, 43, 43, 0.09);
+@card-radius: 6px;
+
+.ant-card-head-wrapper{
+  height:@card-head-height !important;
+}
+
+
+
+.ant-tabs {
+  border: 1px solid @input-border-lighter !important;
+}
+
+.ant-tabs-nav {
+  background-color: @darker-shade-1;
+}
+
+.ant-tabs-nav-wrap,
+.ant-tabs-tabpane {
+  padding: 0px 10px;
+}
+
+
+.ant-transfer-list-body-search-wrapper {
+  .ant-input-prefix {
+    padding-left: 4px;
+  }
+
+}
+
+
+.ant-radio-inner {
+  background-color: @input-bg-lighter;
+  border-color: @input-border-color;
+}
+
+.ant-transfer-list-header {
+  background-color: @darker-shade-1;
+}
+
+.ant-transfer-list-body-search-wrapper {
+  padding: 5px 6px;
+}
+
+.ant-transfer-list {
+  width: 50%;
+}
+
+.ant-radio-input:focus+.ant-radio-inner {
+  box-shadow: none;
+}
+
+
+::-webkit-scrollbar {
+  width: @scroll-bar-width;
+  height: @scroll-bar-height;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background-color: @scroll-bar-track-bg;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color: @scroll-bar-thumb-bg;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: @scroll-bar-thumb-hover-bg;
+}
+
+/* Handle on active */
+::-webkit-scrollbar-thumb:active {
+  background-color: @scroll-bar-thumb-active-bg;
+}
+
+/* Adjusted Table Scroll Bar Styles */
+.ant-table-sticky .ant-table-scroll .ant-table-body::-webkit-scrollbar {
+  width: @table-sticky-scroll-bar-width;
+  height: @table-sticky-scroll-bar-height;
+}
+
+/* Adjusted Dropdown Scroll Bar Styles */
+.ant-dropdown-menu::-webkit-scrollbar {
+  width: @dropdown-menu-scrollbar-width;
+  height: @dropdown-menu-scrollbar-height;
+}
+
+/* Adjusted Modal Scroll Bar Styles */
+.ant-modal-content::-webkit-scrollbar {
+  width: @modal-scrollbar-width;
+  height: @modal-scrollbar-height;
+}
+
+/* Adjusted Transfer Scroll Bar Styles */
+.ant-transfer-list-content::-webkit-scrollbar {
+  width: @transfer-scrollbar-width;
+  height: @transfer-scrollbar-height;
+}
+
+.ant-menu-inline.ant-menu-root .ant-menu-item,
+.ant-menu-inline.ant-menu-root .ant-menu-submenu-title {
+  border-top: 1px solid @input-border-color;
+}
+
+.ant-menu-dark.ant-menu-inline .ant-menu-item {
+  margin-bottom: 0px;
+}
+
+.ant-menu-dark.ant-menu-horizontal>.ant-menu-item:hover {
+  color: @primary-text-color;
+  background-color: @lighter-shade-2;
+}
+
+.ant-dropdown-menu-item:hover {
+  background-color: @darker-shade-2;
+  color: @primary-text-color;
+}
+
+.ant-dropdown-menu-item-selected,
+.ant-dropdown-menu-submenu-title-selected {
+  background-color: @darker-shade-1;
+}
+
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  background-color: @darker-shade-2;
+}
+
+
+.ant-btn {
+  border-color: @input-border-lighter
+}
+
+.ant-btn-primary[disabled],
+.ant-btn-primary[disabled]:hover,
+.ant-btn-primary[disabled]:focus,
+.ant-btn-primary[disabled]:active {
+  background-color: @disabled-color;
+  border-color: @input-border-lighter;
+  color: darken(@primary-text-color, 60%);
+}
+
+.ant-collapse,
+.ant-collapse-content,
+.ant-collapse>.ant-collapse-item,
+.ant-transfer-list,
+.ant-transfer-list-content,
+.ant-checkbox-inner {
+  border-color: @input-border-lighter !important;
+}
+
+.ant-input,
+.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+  padding: 0px 8px;
+}
+
+.label{
+  color: @dashboard-label-color;
+}
+
+.ant-empty-description {
+  color: @primary-text-color;
+}
+
+.tab-heading {
+  background: @darker-shade-1;
+}
+
+.cdk-global-overlay-wrapper {
+  background-color: none !important;
+}

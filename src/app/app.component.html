@@ -1,0 +1,27 @@
+<nz-layout class="layout content">
+  <nz-sider nzCollapsible nzBreakpoint="lg"
+            [nzWidth]="260"
+            [nzCollapsedWidth]="64"
+            [nzCollapsed]="_commonService.isSidebarCollapsed"
+            [nzWidth]="!_commonService.isSidebarCollapsed ? siderWidth : 60"
+            nz-resizable
+            [nzMinWidth]="60"
+            [nzMaxWidth]="600"
+            [nzTrigger]="null">
+    <app-sidebar></app-sidebar>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <app-header></app-header>
+    </nz-header>
+    <nz-content>
+
+      <router-outlet></router-outlet>
+      
+      <!-- <app-book-appointment></app-book-appointment> -->
+    </nz-content>
+    <nz-footer>
+      <app-footer></app-footer>
+    </nz-footer>
+  </nz-layout>
+</nz-layout>

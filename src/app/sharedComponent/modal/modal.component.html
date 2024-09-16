@@ -1,0 +1,18 @@
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzTitle]="title"
+  [nzWidth]="width"
+  [nzFooter]="footerTemplate"
+  [nzClassName]="modalClass"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+>
+  <ng-container *nzModalContent>
+    <ng-content></ng-content>
+  </ng-container>
+</nz-modal>
+
+<ng-template #footerTemplate>
+  <button nz-button (click)="handleCancel()">Cancel</button>
+  <button nz-button nzType="primary" (click)="handleOk()">OK</button>
+</ng-template>

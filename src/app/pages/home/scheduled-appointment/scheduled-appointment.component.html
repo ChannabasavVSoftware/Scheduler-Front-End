@@ -1,0 +1,33 @@
+<div class="Table">
+
+    <nz-table #basicTable [nzData]="listOfData"  >
+        <thead>
+            <tr>
+                <th>Appointment ID</th>
+                <!-- <th>Doctor Name</th> -->
+                <th>Patient Name</th>
+                <th>Appointment Date</th>
+                <th>Appointment Time</th>
+                <th>Status</th>
+                <th>Cancel Appointment</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (data of basicTable.data; track data) {
+                <tr>
+                    <td>{{ data.AppointmentID }}</td>
+                    <!-- <td>{{ data.DoctorName }}</td> -->
+                    <td>{{ data.PatientName }}</td>
+                    <td>{{data.AppointmentDate | date:'fullDate'}}</td>
+                    <td>{{data.AppointmentTime | date:'shortTime'}}</td>
+                    <td>{{data.AppointmentStatus}}</td>
+                    <td>
+                        <!-- <a>Action 一 {{  }}</a> -->
+                        <!-- <nz-divider nzType="vertical"></nz-divider> -->
+                        <a>Cancel Appointment</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </nz-table>
+</div>

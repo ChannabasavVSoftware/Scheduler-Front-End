@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>VMV</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="assets/icon.png">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+  <app-root></app-root>
+
+  
+  <div class="loader" id="loader">
+    <div  style="position:absolute;top:50%;left:50%;color:white;height: 120px;width: 275px !important; text-align:center; background-size:cover" class="loader-style">
+      <img src='assets/loader5.gif' style="width: 80px;text-align:center" align="center"/>
+      <h2 style='margin-top:10px; font-size: auto;'>Loading</h2>
+    </div>
+  </div>
+  <div data-loader="addwellbtn">
+    <div class="loader" id='myspinner'>
+      <!-- <h2>Loading </h2> -->
+      <!-- <img src="assets/loader5.gif"> -->
+    </div>
+  </div>
+  
+  <script>
+    setTimeout(function () {
+      var myobj = document.getElementById("loader");
+      myobj.remove();
+    },200);
+  </script>
+
+</body>
+</html>

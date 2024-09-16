@@ -1,0 +1,50 @@
+<div class="original-table">
+    <nz-table
+    #virtualTable
+    [nzBordered]="true"
+    [nzVirtualItemSize]="12"
+    [nzData]="filteredTableData"
+    [nzVirtualForTrackBy]="trackByIndex"
+    (nzQueryParams)="sortTableData($event)"
+    [nzFrontPagination]="false"
+    [nzShowPagination]="false"
+    [nzScroll]="tableDimension"
+    nzSize="small"
+  >
+    <thead>
+      <tr class="table-row">
+        <th 
+        *ngFor="let header of headers"  
+        [style.width.px]="header.columnWidth" 
+        [style.min-width.px]="header.columnWidth"
+        [nzSortFn]="true"
+        (nzResizeEnd)="onResize($event, header.key)"
+        nzColumnKey="{{header.key}}" 
+        nz-resizable
+        nzBounds="window"
+        nzEllipsis
+        class="table-column"
+        >
+        <nz-resize-handle nzDirection="right">
+            <div class="right-wrap">
+              <span class="right" nz-icon nzType="more" nzTheme="outline"></span>
+            </div>
+          </nz-resize-handle>
+          {{ header.label }}
+        </th>
+        <!-- <th style="min-width: auto !important; width: auto !important;"></th> -->
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template nz-virtual-scroll let-data>
+        <tr class="table-row">
+          <td *ngFor="let header of headers"  [style.width.px]="header.columnWidth" [style.min-width.px]="header.columnWidth" >
+            {{ data[header.key] }}
+          </td>
+          <!-- <td style="min-width: auto !important; width: auto !important;"></td> -->
+        </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>
+  
+</div>

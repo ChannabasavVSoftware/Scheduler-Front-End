@@ -1,0 +1,32 @@
+.table-row {
+    display: flex;
+    }
+    
+    .table-column {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 160px;
+      display: list-item;
+      min-width: 160px;
+      text-overflow: ellipsis;
+    }
+
+    .original-table{
+        table{
+          table-layout: auto !important;
+        }
+      .cdk-virtual-scroll-content-wrapper table{
+        table-layout: auto !important;
+      }
+        
+      .ant-table-wrapper{
+        width: 100%;
+        // overflow: auto;
+      }
+        .text{
+          display: inline-block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }

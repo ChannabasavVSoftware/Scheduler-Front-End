@@ -1,0 +1,58 @@
+<div class="header">
+    <div class="left-header">
+      <div class="collapse-icon logo">
+        <span class="header-trigger" (click)="updateSidebar()">
+          <i class="trigger" nz-icon [nzType]="_commonService.isSidebarCollapsed ? 'menu-unfold' : 'menu-fold'"
+            [title]="_commonService.isSidebarCollapsed ? 'Expand' : 'Collapse'"></i>
+        </span>
+        
+        <!-- <img src="assets/halliburton-logo.png" /> -->
+      </div>
+
+    </div>
+    
+
+   
+
+ 
+   
+    <div class="right-header">
+
+      <div style="display: flex; gap: 5px; align-items: center;">
+        <div class="phone">
+          <!-- <span nz-icon nzType="mail" nzTheme="outline"></span> <a href="mailto:sperrysurveysolutions@halliburton.com">SperrySurveySolutions&#64;Halliburton.com</a> -->
+        </div>
+      </div>
+
+       <nz-select [(ngModel)]="selectedTheme" (ngModelChange)="loadTheme()">
+              <nz-option *ngFor="let theme of themeOptions" [nzLabel]="theme.label" [nzValue]="theme.value"></nz-option>
+        </nz-select>
+
+        <div class="user-info" *ngIf="environment.userAuthentication && _authService.userInfo">
+            <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="userInfoMenu" class="user-info">
+            <span>{{_authService.userInfo?.name}}</span>
+            <nz-avatar title="Profile" nzIcon="user"></nz-avatar>
+            <i nz-icon nzType="caret-down" nzTheme="outline"></i> 
+          </a>
+        </div>
+
+          
+
+      
+    </div>
+</div>
+
+
+
+
+<nz-dropdown-menu #userInfoMenu="nzDropdownMenu">
+    <ul nz-menu *ngIf="_authService.userInfo?.name !== undefined">
+      <li nz-menu-item>
+        {{_authService.userInfo?.name}}
+      </li>
+      <li nz-menu-item (click)="_authService.logout()">
+        Logout
+      </li>
+    </ul>
+  </nz-dropdown-menu>
+

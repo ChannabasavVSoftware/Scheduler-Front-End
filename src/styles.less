@@ -1,0 +1,284 @@
+
+// Custom Theming for NG-ZORRO
+// For more information: https://ng.ant.design/docs/customize-theme/en
+@import "../node_modules/ng-zorro-antd/ng-zorro-antd.less";
+@import '../node_modules/ng-zorro-antd/resizable/style/entry.less';
+
+@import 'styles/dark.less';
+// @import 'styles/default.less';
+// @import 'styles/blue.less';
+// @import 'styles/green.less';
+
+@font-face {
+  font-family: 'AptosNarrow';
+  src: url('assets/fonts/AptosNarrow.eot');
+  src: url('assets/fonts/AptosNarrow.eot') format('embedded-opentype'),
+       url('assets/fonts/AptosNarrow.woff2') format('woff2'),
+       url('assets/fonts/AptosNarrow.woff') format('woff'),
+       url('assets/fonts/AptosNarrow.ttf') format('truetype'),
+       url('assets/fonts/AptosNarrow.svg#AptosNarrow') format('svg');
+}
+
+
+
+// Override less variables to here
+// View all variables: https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/components/style/themes/default.less
+
+// @primary-color: #1890ff;
+/* You can add global styles to this file, and also import other style files */
+
+
+body{
+  font-family: 'AptosNarrow' !important;
+}
+
+.ant-layout{
+    height: 100%;
+}
+
+
+.upload-btn-wrapper {
+    position: relative;
+    display: inline-block;
+    height: 100%;
+    cursor: pointer;
+    display: flex;
+    gap: 10px;
+  .upload-mag-btn{
+    right:10px;
+  }
+  
+  }
+ 
+  
+  .upload-btn-wrapper input[type=file] {
+    font-size: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    height: 100%;
+    cursor: pointer;
+    z-index: 99;
+    width: 100%;
+  }
+
+  .ant-input-affix-wrapper{
+    padding: 0px !important;
+  }
+
+
+  .ant-input-affix-wrapper > input.ant-input{
+    padding: 0px 10px !important;
+  }
+
+
+  .top-menu .ant-menu{
+    background-color: transparent !important;
+  }
+
+  .ant-select{
+    align-items: center !important;
+  }
+
+
+  h1,h2,h3,h4,h5,h6,p{
+    margin: 0px !important;
+  }
+
+  .ant-card-extra{
+    display: flex;
+    width: 100%;
+    padding: 0px !important;
+  }
+
+  .ant-card-head{
+    padding: 0px !important;
+  }
+  
+  
+
+
+
+
+
+
+
+
+.ant-layout-content{
+  overflow: auto !important;
+}
+
+.nomargin{
+  margin: 0px !important;
+}
+
+
+
+
+
+.ant-page-header{
+  padding: 0px 5px !important;
+}
+
+.ant-page-header-back-button{
+  color: #fff !important;
+}
+
+.ant-alert-success {
+  background-color: #1c3306 !important;
+  border: 1px solid #45652c !important;
+  padding: 0px 3px !important;
+  font-size: 16px;
+}
+
+.ant-alert-success .ant-alert-icon{
+  color: #52c41a;
+  font-size: 28px;
+}
+
+.ant-alert-message{
+  font-size: 18px;
+}
+
+
+
+.nz-table{
+  th,td{
+    width: 150px !important;
+  }
+}
+
+.ant-input[disabled]{
+  color: #9b9999 !important;
+}
+
+
+.table-row {
+  display: flex;
+  }
+  
+  .table-column {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 160px;
+    display: list-item;
+    min-width: 160px;
+    text-overflow: ellipsis;
+  }
+
+
+
+.original-table{
+  table{
+    table-layout: auto !important;
+  }
+.cdk-virtual-scroll-content-wrapper table{
+  table-layout: auto !important;
+}
+  
+.ant-table-wrapper{
+  width: 100%;
+  // overflow: auto;
+}
+  // th,td, .ant-table-thead > tr > th{
+  //   min-width: 120px !important;
+  //   width: 120px !important;
+  //   max-width: 120px !important;
+  //   word-wrap: break-word;
+  //   word-break: break-word;
+  // }
+
+  .text{
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+
+.overflow-text{
+  white-space: nowrap; /* Prevents text from wrapping */
+  overflow: hidden; /* Hides any overflow text */
+  text-overflow: ellipsis; /* Truncates text with an ellipsis (...) if it overflows the container */
+}
+
+::ng-deep .nz-table td,
+::ng-deep .nz-table th {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+
+.selected td{
+  background-color: rgba(110, 138, 57, 0.459) !important;
+}
+
+
+.nz-resizable-preview {
+  border-width: 0;
+  border-right-width: 1px;
+}
+
+nz-table td{
+  -webkit-user-select: none; /* Safari */
+-ms-user-select: none; /* IE 10 and IE 11 */
+user-select: none; /* Standard syntax */
+}
+
+
+.cdk-global-overlay-wrapper{
+  background: none !important;
+}
+
+.ant-modal-mask{
+  opacity: 0.7 !important;
+}
+
+
+
+.ant-table-cell-fix-left:hover{
+  background-color: transparent !important;
+}
+::ng-deep .cdk-drag-preview {
+  display: table;
+}
+
+::ng-deep .cdk-drag-placeholder {
+  opacity: 0;
+}
+
+
+.ant-tree-checkbox-indeterminate .ant-tree-checkbox-inner{
+  border-color: #297182c9 !important;
+  background-color: #171818 !important;
+  }
+
+  .ant-tree .ant-tree-node-content-wrapper:hover{
+    background-color: transparent !important;
+  }
+
+  .ant-tree-checkbox-inner{
+    border-color: #423e3ec9 !important;
+  }
+
+  .ant-tree-checkbox-checked .ant-tree-checkbox-inner{
+    border: none !important;
+  }
+
+  .ant-tree-checkbox-indeterminate .ant-tree-checkbox-inner::after{
+    background-color: #067da3 !important;
+  }
+
+  .ant-tree-checkbox-checked .ant-tree-checkbox-inner{
+    background-color: #067da3 !important;
+  }
+
+
+
+  
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

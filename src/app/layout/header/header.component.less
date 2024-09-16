@@ -1,0 +1,156 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
+.user-info{
+  display: flex;
+  align-items: center;
+
+  span{
+    margin-right: 5px;
+  }
+}
+
+.settings{
+    cursor: pointer;
+    animation-name: spin;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+
+@keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .left-header, .right-header{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  nz-select{
+    min-width: 120px;
+  }
+
+  .server-selection{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .warning{
+    display: contents;
+    cursor:pointer;
+  }
+  .warning span{
+    font-size: 24px;
+    color: rgb(189, 145, 2);
+  }
+
+  .help_icon {
+    span.anticon.anticon-question-circle {
+      padding: 5px;
+    }
+  }
+
+  .server-status{
+    width:13px;
+    height: 13px;
+    border-radius: 100%;
+    box-shadow: inset 0px 1px 0px rgba(0,0,0,.1);
+   -webkit-animation: led 1.5s infinite;
+   -moz-animation: led 1.5s infinite;
+   -ms-animation: led 1.5s infinite;
+   -o-animation: led 1.5s infinite;
+   animation: led 1.5s infinite;
+ 
+  }
+  .server-status.green{
+    background: #5de900;
+  }
+  .server-status.red{
+   background: #fd0000;
+ }
+
+ .logo{
+    width: 350px;
+    display: flex;
+    align-items: center;
+    span{
+        cursor: pointer;
+    }
+   img{
+    width: 100%;
+   }
+ }
+
+  .email, .phone{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    i{
+        margin-right: 10px;
+    }
+  }
+
+ /* keyframes */
+@-webkit-keyframes led {
+  from {
+    opacity:.2;
+  }
+
+  to {
+    opacity:1;
+  }
+}
+
+@-moz-keyframes led {
+  from {
+    opacity:.2;
+  }
+
+  to {
+    opacity:1;
+  }
+}
+
+@-ms-keyframes led {
+  from {
+    opacity:.2;
+  }
+
+  to {
+    opacity:1;
+  }
+}
+
+@-o-keyframes led {
+  from {
+    opacity:.2;
+  }
+
+  to {
+    opacity:1;
+  }
+}
+
+@keyframes led {
+  from {
+    opacity:.2;
+  }
+
+  to {
+    opacity:1;
+  }
+}

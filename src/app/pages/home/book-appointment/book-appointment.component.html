@@ -1,0 +1,120 @@
+<div class="Appointment">
+
+    <div class="DetailsInput">
+        <nz-card class="DetailsInput">
+
+            <div style="font-size:25px; text-align:center; margin-top: 20px;">Book Appointment </div>
+            <div style="margin-left: 30px; margin-left:30px;">
+                <div style=" font-size: 20px; margin-top: 20px;">Enter Patient phone number : </div>
+
+                <input id="Dummy" nz-input style="margin: 10px 0px 10px 0px; width:26vw; height: 40px;  "
+                    (blur)="GetPatientDetails()" [(ngModel)]="PatientPhoneNumber"
+                    placeholder="Enter patient phone number...">
+
+
+            </div>
+            <div style="margin-left: 30px; margin-left:30px;">
+                <div style=" font-size: 20px;">Select Patient :</div>
+
+                <datalist id="PatientListOptions">
+                    <option *ngFor="let patient of PatientDetails" [value]="patient.name"></option>
+                </datalist>
+
+                <input nz-input style="margin: 10px 0px 10px 0px; width:26vw; height: 40px;"
+                    list="PatientListOptions" [(ngModel)]="PatientName" placeholder="Select patient...">
+
+            </div>
+
+
+            <div style="margin-left: 30px; margin-left:30px; ">
+                <div style=" font-size: 20px;">Select appointment date</div>
+                <nz-date-picker [nzRenderExtraFooter]="footerRender" [(ngModel)]="selectedDate" class="DatePicker"
+                    (nzOnChange)="GetSlots()"></nz-date-picker>
+                <button nz-button type="submit"  [disabled]="!this.DoctorId|| !this.selectedDate" (click)="GetSlots()" style="margin-top: 10px;">Get Slots</button>
+            </div>
+
+
+            <!-- *ngIf="SelectedDoctor && selectedDate && PatientName && SelectedSlot" -->
+            <div style="font-size: 20px; margin-left:30px; margin-top:20px;">Appointment Details
+
+
+                <div style="margin-left: 30px; font-size: 15px;">
+                    Patient Name : {{PatientName}}
+                </div>
+
+                <div style="margin-left: 30px; font-size: 15px;">
+                    Selected Doctor : {{DoctorName}}
+                </div>
+
+                <div style="margin-left: 30px; font-size: 15px;">
+                    Selected Date : {{selectedDate | date:'fullDate'}}
+                </div>
+
+                <div style="margin-left: 30px; font-size: 15px;">
+                    Selected Slot : {{SelectedSlotId}}
+                </div>
+
+                <app-modal [title]="'Appointment booked successfully'" [width]="'600px'" [modalClass]="'new-modal1'"
+                    [(isVisible)]="isModalTestVisible"
+                    (isVisibleChange)="onIsVisibleChange('isModalTestVisible',$event)">
+                    <p>Your appointment ID is {{AppointmentID}} .</p>
+                </app-modal>
+
+                <button nz-button nzType="primary" [disabled]="!DoctorId || !selectedDate || !PatientName || !SelectedSlotId" (click)="openModal('isModalTestVisible')" class="BookAppointment">Book
+                    Appointment
+                </button> <br /><br />
+
+
+
+            </div>
+        </nz-card>
+
+    </div>
+
+
+
+
+    <div class="DetailsCard">
+
+        <div style=" font-size:30px;  ">Doctors</div>
+
+        <div class="DoctorBlock" style="display:flex; flex-wrap:wrap;  flex-direction:row; ">
+
+
+            <div *ngIf="!PatientPhoneNumber ">Enter the Patient Phone Number to view available doctors... </div>
+            <div *ngFor="let doctor of DoctorDetails" (click)="SelectedDoctor(doctor)"
+                style="padding:0px;  margin:10px; border-radius:5px; width: 104px;">
+
+                <img src="https://th.bing.com/th?id=OIP.zEnScPNkyUIkfdkPJejXiAHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&cb=13&pid=3.1&rm=2"
+                    width="100px" height="100px" class="card-img-top" alt="Doctor Image" />
+
+                <div class="card-body">
+                    <h4 style="font-size: 15px; margin:0px">{{doctor.name}}</h4>
+                    <!-- <p class="card-text">{{doctor.DoctorSpecialization}} </p> -->
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div style="font-size: 30px; ">Available Slots
+
+
+        </div>
+            <div class="SlotBlock">
+                <div *ngIf="!selectedDate || !DoctorName">Select appointment date and doctor to view the slots... </div>
+                <div *ngFor="let slot of this.Slots" [ngClass]="{'U-Slot':slot.status=='Unavailable'}"
+                    (click)="AddSlot(slot)" class="Slot" style="slot.">
+                    {{slot.slotId}}
+                    <div>{{slot.startTime}}</div>
+                </div>
+
+
+
+        </div>
+
+    </div>
+
+</div>
