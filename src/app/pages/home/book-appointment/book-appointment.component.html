@@ -106,7 +106,7 @@
             <div class="SlotBlock">
                 <div *ngIf="!selectedDate || !DoctorName">Select appointment date and doctor to view the slots... </div>
                 <div *ngFor="let slot of this.Slots" [ngClass]="{'U-Slot':slot.status=='Unavailable'}"
-                    (click)="AddSlot(slot)" class="Slot" style="slot.">
+                    (click)="AddSlot(slot)" class="Slot">
                     {{slot.slotId}}
                     <div>{{slot.startTime}}</div>
                 </div>

@@ -1,47 +1,38 @@
 <div class="Leave">
     <div class="LeaveInput">
 
-        <nz-card  class="LeaveInput" style="padding: 30px;">
-            <p style="font-size:25px; text-align:center" >Apply for Leave</p>
+        <nz-card class="LeaveInput" style="padding: 30px;">
+            <p style="font-size:25px; text-align:center">Apply for Leave</p>
             
-            <p class="LeaveAttribute" >Enter Start and End date : </p>
-            <nz-range-picker [nzSize]="size"></nz-range-picker>
+            <p class="LeaveAttribute">Enter Leave Type :</p>
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a Leave Type" nzSize="large"
+                [(ngModel)]="leaveType" style="width:100%; height:40px;">
+                <nz-option nzLabel="Full Day Leave" nzValue=0></nz-option>
+                <nz-option nzLabel="Partial Day Leave" nzValue=1></nz-option>
+            </nz-select>
+
+            <p class="LeaveAttribute">Enter Start and End date : </p>
+            <nz-range-picker nzSize="large" [(ngModel)]="dateRange" (ngModelChange)="onDateChange($event)" [disabled]="leaveType == null">
+            </nz-range-picker>
 
             <p class="LeaveAttribute">Enter Start Time :</p>
-            <nz-time-picker
-            [(ngModel)]="time"
-            [nzUse12Hours]="true"
-            (ngModelChange)="log($event)"
-            nzFormat="h:mm a"
-          ></nz-time-picker>
+            <nz-time-picker [(ngModel)]="startTime" [nzFormat]="'HH:mm'" [nzUse12Hours]="false" [disabled]="leaveType == 0 || leaveType == null"></nz-time-picker>
 
-          <p class="LeaveAttribute">Enter End Time :</p>
-            <nz-time-picker
-            [(ngModel)]="time"
-            [nzUse12Hours]="true"
-            (ngModelChange)="log($event)"
-            nzFormat="h:mm a"
-          ></nz-time-picker>
+            <p class="LeaveAttribute">Enter End Time :</p>
+            <nz-time-picker [(ngModel)]="endTime" [nzFormat]="'HH:mm'" [nzUse12Hours]="false" [disabled]="leaveType == 0 || leaveType == null"></nz-time-picker>
 
-          <p class="LeaveAttribute">Enter Leave Type :</p>
-         
-          <input nz-input placeholder="Enter the Leave Type"  list="LeaveTypes" class="LeaveAttributeInput" /> 
-          <datalist id="LeaveTypes">
-              <option value="Full Day Leave"></option>
-              <option value="Partial Day Leave"></option>
-            </datalist> 
-            
             <p class="LeaveAttribute">Enter Leave Reason :</p>
-            <input nz-input placeholder="Enter the Leave Reason"  class="LeaveAttributeInput" /> 
+            <input nz-input placeholder="Enter the Leave Reason" class="LeaveAttributeInput"
+                [(ngModel)]="description" />
 
-            <button class="AddPatient" 
-            nz-button nzType="primary" style="width:100%; height:40px; margin-top: 20px;;">Apply Leave</button>
+            <button class="AddPatient" (click)="addLeave()" nz-button nzType="primary"
+                style="width:100%; height:40px; margin-top: 20px;;">Apply Leave</button>
 
         </nz-card>
     </div>
 
     <div class="LeaveTable">
-        <nz-table #basicTable [nzData]="listOfData"  >
+        <!-- <nz-table #basicTable [nzData]="listOfLeave">
             <thead>
                 <tr>
                     <th>Leave ID</th>
@@ -50,30 +41,50 @@
                     <th>Start Time</th>
                     <th>End Time</th>
                     <th>Leave Type</th>
-                    <th>Reason</th>
+                    <th>Description</th>
                 </tr>
             </thead>
             <tbody>
-                @for (data of basicTable.data; track data) {
-            <tr>
-              <td>{{ data.AppointmentID }}</td>
-              <td>{{ data.DoctorName }}</td>
-              <td>{{ data.PatientName }}</td>
-              <td>{{data.AppointmentDate | date:'fullDate'}}</td>
-              <td>{{data.AppointmentTime | date:'shortTime'}}</td>
-              <td>{{data.AppointmentStatus}}</td>
-              <td>
-                  <!-- <a>Action 一 {{  }}</a> 
-                  <nz-divider nzType="vertical"></nz-divider> -->
-                <a>Cancel Leave</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-    </nz-table>
+                
+                <tr *ngFor="let leave of listOfLeave">
+                    <td>{{leave.leaveId}}</td>
+                    <td>{{leave.startDate | date:'shortDate'}}</td>
+                    <td>{{leave.endDate | date:'shortDate'}}</td>
+                    <td>{{leave.startTime}}</td>
+                    <td>{{leave.endTime}}</td>
+                    <td>{{leave.leaveType == 0 ? "Full Day" : "Partial" }}</td>
+                    <td>{{leave.description}}</td>
+                </tr>
+                
+            </tbody>
+        </nz-table> -->
 
 
+        <nz-table #basicTable [nzData]="listOfLeave" [nzPageSize]="19"  [nzScroll]="{ y: '700px' }" >
+            <thead>
+              <tr>
+                <th>Leave ID</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Leave Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of basicTable.data">
+                <td>{{data.leaveId}}</td>
+                <td>{{data.startDate | date:'shortDate'}}</td>
+                <td>{{data.endDate | date:'shortDate'}}</td>
+                <td>{{data.startTime}}</td>
+                <td>{{data.endTime}}</td>
+                <td>{{data.leaveType == 0 ? "Full Day" : "Partial" }}</td>
+                <td>{{data.description}}</td>
+              </tr>
+            </tbody>
+          </nz-table>
 
-        
+
     </div>
 </div>
