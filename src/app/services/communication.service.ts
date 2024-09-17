@@ -8,7 +8,7 @@
 // import { CalcMagValues } from '../models/CalcMagValues';
 // import { environment } from '../../environments/environment';
 
-import { HttpClient,HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment.development";
 
@@ -17,34 +17,48 @@ import { environment } from "src/environments/environment.development";
 })
 export class CommunicationService {
 
-  constructor(private _http: HttpClient){}
-  
-  public getVersion(){
+  constructor(private _http: HttpClient) { }
+
+  public getVersion() {
     return this._http.get(`${environment.baseUrl}/serverversion`)
   }
 
 
-  public GetUserDetails(ContactNumber){
+  public GetUserDetails(ContactNumber) {
     const url = `${environment.baseUrl}/Patient/${ContactNumber}`;
     return this._http.get(url);
   }
 
-  public GetDoctorSlots(SelectedDate:any,DoctorId:string){
+  public GetDoctorSlots(SelectedDate: any, DoctorId: string) {
 
-    console.log("This is doctor Id:"+DoctorId);
-    
+    console.log("This is doctor Id:" + DoctorId);
+
     let params = new HttpParams()
-    .set('appointmentDate', SelectedDate)
-    .set('doctorId', DoctorId);
+      .set('appointmentDate', SelectedDate)
+      .set('doctorId', DoctorId);
 
 
-    const url=`${environment.baseUrl}/Slot`;
-    return this._http.get(url,{params});
+    const url = `${environment.baseUrl}/Slot`;
+    return this._http.get(url, { params });
   }
 
-  public BookAppointment(Appointment:any){
-    return this._http.post(`${environment.baseUrl}/Appointments`,Appointment);
-   
+  public BookAppointment(Appointment: any) {
+    return this._http.post(`${environment.baseUrl}/Appointments`, Appointment);
+
   }
 
+  public AddPatient(Patient: any) {
+    return this._http.post(`${environment.baseUrl}/Patient`, Patient);
+  }
+
+  public AddLeave(Leave: any) {
+    return this._http.post(`${environment.baseUrl}/Leave`, Leave);
+  }
+
+  public GetDoctorLeaveById(DocterId) {
+    let params = new HttpParams()
+      .set('id', DocterId);
+    const url = `${environment.baseUrl}/Leave/GetByDoctorId`;
+    return this._http.get(url, {params});
+  }
 }
