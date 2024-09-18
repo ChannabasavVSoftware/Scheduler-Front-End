@@ -142,18 +142,11 @@ export class LeavesComponent {
     const isFullDayLeave = this.listOfLeave.some(leave => {
       const startDate = new Date(leave.startDate);
       const endDate = new Date(leave.endDate);
+      // console.log("isfulldayleave (true/false): " + (current >= startDate && current <= endDate && leave.leaveType == 0))
       return current >= startDate && current <= endDate && leave.leaveType == 0;
     });
 
-    const isPartialDayLeave = this.listOfLeave.some(leave => {
-      const startDate = new Date(leave.startDate);
-      const endDate = new Date(leave.endDate);
-      return current >= startDate && current <= endDate && leave.leaveType == 0 && leave.leaveType != 1;
-    });
-    console.log("eleave type : " + this.leaveType)
-    console.log("isFullDayLeave : " + isFullDayLeave);
-    console.log("isPartialDayLeave : " + isPartialDayLeave);
-    return (this.leaveType == 0 ? isFullDayLeave : isPartialDayLeave) || isHoliday; // Disable only if it's a full-day leave or holiday
+    return isFullDayLeave || isHoliday; // Disable only if it's a full-day leave or holiday
   };
 
 
