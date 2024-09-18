@@ -47,4 +47,30 @@ export class CommunicationService {
    
   }
 
+  public GetPatientAppointmentHistory(PatientId:any){
+
+
+    console.log("Patient ID : "+PatientId);
+    let params = new HttpParams()
+    .set('patientId',PatientId);
+
+    return this._http.get(`${environment.baseUrl}/Appointments/GetPatientAppointmentHistory`,{params});
+  }
+
+
+public GetDoctorAppointmentHistory(DoctorId:any){
+  
+  let params = new HttpParams()
+  .set('doctorId',DoctorId);
+
+  return this._http.get(`${environment.baseUrl}/Appointments/GetDoctorAppointmentHistory`,{params});
+}
+
+
+
+
+
+
+
+
 }
