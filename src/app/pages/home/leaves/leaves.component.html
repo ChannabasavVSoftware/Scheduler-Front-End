@@ -11,13 +11,11 @@
                 <nz-option nzLabel="Partial Day Leave" nzValue=1></nz-option>
             </nz-select>
 
-            <!-- Partial Day Leave: Show Single Date Picker -->
             <p class="LeaveAttribute" *ngIf="leaveType == 1">Enter Date:</p>
             <nz-date-picker *ngIf="leaveType == 1" [(ngModel)]="partialDate" (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableLeaveDates"
                 style="width:96%; height:40px;">
             </nz-date-picker>
 
-            <!-- Full Day Leave: Show Date Range Picker -->
             <p class="LeaveAttribute" *ngIf="leaveType == 0">Enter Start and End Date:</p>
             <nz-range-picker *ngIf="leaveType == 0" nzSize="large" [(ngModel)]="dateRange"
                 (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableLeaveDates"
@@ -30,7 +28,8 @@
                 [disabled]="leaveType == 0 || leaveType == null" style="width:96%; height:40px;"></nz-time-picker>
 
             <p class="LeaveAttribute">Enter End Time :</p>
-            <nz-time-picker [(ngModel)]="endTime" [nzFormat]="'HH:mm'" [nzUse12Hours]="false"
+            <nz-time-picker [(ngModel)]="endTime" [nzFormat]="'HH:mm'" [nzUse12Hours]="false" [nzDisabledHours]="disableTimeSlots().nzDisabledHours"
+            [nzDisabledMinutes]="disableTimeSlots().nzDisabledMinutes"
                 [disabled]="leaveType == 0 || leaveType == null" style="width:96%; height:40px;"></nz-time-picker>
 
             <p class="LeaveAttribute">Enter Leave Reason :</p>

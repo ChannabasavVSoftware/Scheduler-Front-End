@@ -151,39 +151,54 @@ export class LeavesComponent {
 
 
 
-  // Disable specific time slots for partial day leaves (leaveType === 1)
-  disableTimeSlots = (): { nzDisabledHours: () => number[], nzDisabledMinutes: (hour: number) => number[] } => {
-    if (!this.startDate) return { nzDisabledHours: () => [], nzDisabledMinutes: () => [] };
+// Disable specific time slots for partial day leaves (leaveType === 1)
+disableTimeSlots = (): { nzDisabledHours: () => number[], nzDisabledMinutes: (hour: number) => number[] } => {
+  if (!this.partialDate) return { nzDisabledHours: () => [], nzDisabledMinutes: () => [] };
 
-    const selectedDate = this.datePipe.transform(this.startDate, 'yyyy-MM-dd');
+  // Format the selected date to compare it with leave data
+  const selectedDate = this.datePipe.transform(this.partialDate, 'yyyy-MM-dd');
+  
+  // Find partial day leaves for the selected date
+  const partialLeave = this.listOfLeave.find(leave => 
+    this.datePipe.transform(leave.startDate, 'yyyy-MM-dd') === selectedDate && leave.leaveType == 1
+  );
 
-    // Find partial day leaves for the selected date
-    const partialLeaveForSelectedDate = this.listOfLeave.find(leave =>
-      this.datePipe.transform(leave.startDate, 'yyyy-MM-dd') === selectedDate && leave.leaveType == 1
-    );
+  if (partialLeave) {
+    // Parse the start and end times of the partial leave
+    const [startHour, startMinute] = partialLeave.startTime.split(':').map(Number);
+    const [endHour, endMinute] = partialLeave.endTime.split(':').map(Number);
 
-    if (partialLeaveForSelectedDate) {
-      const startTime = new Date(partialLeaveForSelectedDate.startTime);
-      const endTime = new Date(partialLeaveForSelectedDate.endTime);
+    return {
+      nzDisabledHours: () => {
+        const disabledHours: number[] = [];
+        for (let i = startHour; i <= endHour; i++) {
+          disabledHours.push(i); // Disable the hours in the leave range
+        }
+        return disabledHours;
+      },
+      nzDisabledMinutes: (hour: number) => {
+        if (hour === startHour) {
+          // Disable minutes within the start hour range
+          const minutes: number[] = [];
+          for (let i = startMinute; i < 60; i++) {
+            minutes.push(i);
+          }
+          return minutes;
+        } else if (hour === endHour) {
+          // Disable minutes within the end hour range
+          const minutes: number[] = [];
+          for (let i = 0; i <= endMinute; i++) {
+            minutes.push(i);
+          }
+          return minutes;
+        }
+        return [];
+      }
+    };
+  }
 
-      return {
-        nzDisabledHours: () => [startTime.getHours()],
-        nzDisabledMinutes: (hour: number) => hour === startTime.getHours() ? this.getDisabledMinutes(startTime, endTime) : []
-      };
-    }
-
-    return { nzDisabledHours: () => [], nzDisabledMinutes: () => [] };
-  };
-
-  // Get disabled minutes based on leave start and end times
-  getDisabledMinutes = (startTime: Date, endTime: Date): number[] => {
-    const minutes: number[] = [];
-    for (let i = startTime.getMinutes(); i <= endTime.getMinutes(); i++) {
-      minutes.push(i);
-    }
-    return minutes;
-  };
-
+  return { nzDisabledHours: () => [], nzDisabledMinutes: () => [] }; // No partial leave found
+};
 
 
 
