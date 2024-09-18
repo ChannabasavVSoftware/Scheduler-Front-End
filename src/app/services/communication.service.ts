@@ -61,4 +61,9 @@ export class CommunicationService {
     const url = `${environment.baseUrl}/Leave/GetByDoctorId`;
     return this._http.get(url, {params});
   }
+
+  public GetHolidays(){
+    const url = `${environment.baseUrl}/Holidays`;
+    return this._http.get(url)
+  }
 }
