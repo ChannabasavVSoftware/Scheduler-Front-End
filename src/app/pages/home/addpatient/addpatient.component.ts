@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CommunicationService } from 'src/app/services/communication.service';
 import { DatePipe } from '@angular/common';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { DatePipe } from '@angular/common';
 })
 export class AddpatientComponent {
 
-  constructor(private _CS: CommunicationService, private datePipe: DatePipe) { }
+  constructor(private _CS: CommunicationService, private datePipe: DatePipe, private message: NzMessageService) { }
 
   PatientID: any;
   Name: string;
@@ -36,29 +37,32 @@ export class AddpatientComponent {
       next: (response: any) => {
         console.log(response);
         this.PatientID = response.patientId;
+        this.resetForm();
+        this.createMessage('success','Patient Added Sucessfully');
+        // this.AddPatirntSuccessMessage();
       },
       error: (error) => {
-        console.log(error);
-
+        console.log(error.error);
+        
+        this.createMessage('error', error.error)
+        // this.AddPatirntErrorMessage();
       }
 
     });
   }
-  // constructor(private notification: NzNotificationService) {
 
-  // }
+  resetForm(): void {
+    this.Name = '';
+    this.DOB = null;
+    this.ContactNumber = null;
+    this.Email = null;
+    this.selectedGender = null;
+  }
 
-
-  // createBasicNotification(): void {
-  //   this.notification
-  //     .blank(
-  //       'Notification Title',
-  //       'This is the content of the notification. This is the content of the notification. This is the content of the notification.'
-  //     )
-  //     .onClick.subscribe(() => {
-  //       console.log('notification clicked!');
-  //     });
-  // }  
-
+  createMessage(type: string, msg: string): void {
+    this.message.create(type, `${msg}`,{
+      nzDuration: 10000
+    });
+  }
 
 }
