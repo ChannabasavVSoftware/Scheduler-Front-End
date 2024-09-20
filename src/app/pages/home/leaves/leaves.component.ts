@@ -1,6 +1,7 @@
 import { DatePipe, formatDate, Time } from '@angular/common';
 import { Component } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } from 'ng-zorro-antd/table';
 import { CommunicationService } from 'src/app/services/communication.service';
 
@@ -22,17 +23,14 @@ export class LeavesComponent {
 
   takenTimes: { date: Date, startTimes: number[], endTimes: number[] }[] = [];
 
-  createBasicMessage(): void {
-    this.message.success('Leave added Successfully', {
-      nzDuration: 5000
-    });
-  }
-
-  constructor(private _CS: CommunicationService, private datePipe: DatePipe, private message: NzMessageService) {
+  constructor(private _CS: CommunicationService, private datePipe: DatePipe,private notification: NzNotificationService) {
     this.updateTable();
     this.GetListOfHolidays()
   }
 
+  placement = 'topRight';
+
+ 
 
   dcotorId: number = 1;  // for now it is hardcoded later we have to align with login in docterid.
 
@@ -44,6 +42,8 @@ export class LeavesComponent {
   description: string;
   dateRange: Date[] = [];
   partialDate: Date;
+
+  todayDate:Date = new Date();
 
   time: Date | null = null;
   size: 'large' | 'small' | 'default' = 'default';
@@ -71,14 +71,23 @@ export class LeavesComponent {
       next: (response: any) => {
         this.resetForm();
         this.updateTable();
-        this.createBasicMessage();
+        this.createBasicNotification('bottom',"Leave Added Succesfully");
       },
       error: (error) => {
         console.log(error);
+        this.createBasicNotification('bottom', error.error);
       }
     });
   }
 
+  createBasicNotification(position: NzNotificationPlacement, message: string): void {
+    this.notification.blank(
+      message,
+      '',
+      { nzPlacement: position }
+    );
+  }
+  
   resetForm(): void {
     this.leaveType = null;
     this.dateRange = null;
@@ -122,31 +131,17 @@ export class LeavesComponent {
     this.leaveType = value;
   }
 
-  // disableLeaveDates = (current: Date): boolean => {
-  //   const isHoliday = this.checkHoliday(current);
-  //   const isLeave = this.listOfLeave.some(leave => {
-  //     const startDate = new Date(leave.startDate);
-  //     const endDate = new Date(leave.endDate);
-  //     return current >= startDate && current <= endDate;
-  //   });
 
-  //   return isLeave || isHoliday; 
-  // };
-
-
-  // Disable dates that overlap with leaves or holidays
   disableLeaveDates = (current: Date): boolean => {
     const isHoliday = this.checkHoliday(current);
-
-    // Check if the leave is a full-day leave
+3
     const isFullDayLeave = this.listOfLeave.some(leave => {
       const startDate = new Date(leave.startDate);
       const endDate = new Date(leave.endDate);
-      // console.log("isfulldayleave (true/false): " + (current >= startDate && current <= endDate && leave.leaveType == 0))
       return current >= startDate && current <= endDate && leave.leaveType == 0;
     });
 
-    return isFullDayLeave || isHoliday; // Disable only if it's a full-day leave or holiday
+    return isFullDayLeave || isHoliday || current < this.todayDate; // Disable only if it's a full-day leave or holiday
   };
 
 
@@ -224,36 +219,6 @@ disableTimeSlots = (): { nzDisabledHours: () => number[], nzDisabledMinutes: (ho
     }
   }
 
-
-
-  // populateTakenTimes(): void {
-  //   // Here you would populate `takenTimes` based on the leave data from the response.
-  //   this.listOfLeave.forEach(leave => {
-  //     const leaveDate = new Date(leave.startDate);
-  //     this.takenTimes.push({
-  //       date: leaveDate,
-  //       startTimes: [leave.startTime],  // convert startTime and endTime to numbers or proper format
-  //       endTimes: [leave.endTime]
-  //     });
-  //   });
-  // }
-
-  // // Disable times for the selected date
-  // disableTime = (): { nzDisabledHours: () => number[], nzDisabledMinutes: (hour: number) => number[] } => {
-  //   if (!this.startDate) return { nzDisabledHours: () => [], nzDisabledMinutes: () => [] };
-
-  //   const selectedDate = this.datePipe.transform(this.startDate, 'yyyy-MM-dd');
-  //   const takenTimeForSelectedDate = this.takenTimes.find(t => this.datePipe.transform(t.date, 'yyyy-MM-dd') === selectedDate);
-
-  //   if (takenTimeForSelectedDate) {
-  //     return {
-  //       nzDisabledHours: () => takenTimeForSelectedDate.startTimes.map(time => new Date(time).getHours()),
-  //       nzDisabledMinutes: (hour: number) => takenTimeForSelectedDate.startTimes.filter(time => new Date(time).getHours() === hour).map(time => new Date(time).getMinutes())
-  //     };
-  //   }
-
-  //   return { nzDisabledHours: () => [], nzDisabledMinutes: () => [] };
-  // };
 
 
 }
