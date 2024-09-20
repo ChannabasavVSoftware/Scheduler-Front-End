@@ -2,6 +2,7 @@ import { AfterViewInit, EventEmitter, Injectable, OnInit,Inject } from '@angular
 import { Subject } from 'rxjs';
 import { OKTA_AUTH, OktaAuthStateService } from '@okta/okta-angular';
 import OktaAuth from '@okta/okta-auth-js';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class authService {
   public isAuthenticated: boolean = false;
 
   constructor(private oktaAuthState: OktaAuthStateService,
-    @Inject(OKTA_AUTH) public oktaAuth: OktaAuth
+    @Inject(OKTA_AUTH) public oktaAuth: OktaAuth,
+    private _router:Router
     ) {
     this.oktaAuthState.authState$.subscribe(
       async (authState) => {
@@ -24,7 +26,7 @@ export class authService {
         if (this.isAuthenticated) {
           await this.getUserInfo();
         }
-      }
+      } 
     );
   }
   
@@ -64,6 +66,56 @@ export class authService {
     this.oktaAuth.signOut();
     localStorage.removeItem('UserInfo');
   }
+
+
+//Temp Auth
+
+private readonly USERNAME_KEY = 'username';
+
+
+
+login(username: string): void {
+  localStorage.setItem(this.USERNAME_KEY, username);
+}
+
+logoutT(): void {
+  localStorage.removeItem(this.USERNAME_KEY);
+  this._router.navigate(['/login']);
+}
+
+isLoggedIn(): boolean {
+  return !!localStorage.getItem(this.USERNAME_KEY);
+}
+
+getUsername(): string | null {
+  return localStorage.getItem(this.USERNAME_KEY);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
    
 
