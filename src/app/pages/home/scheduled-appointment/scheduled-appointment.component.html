@@ -1,6 +1,35 @@
-<div class="Table">
 
-    <nz-table #basicTable [nzData]="listOfData"  >
+<app-full-calendar></app-full-calendar>
+
+
+
+
+<!-- <nz-card class="CalendarCard">
+    <nz-calendar class="Calendar" style="height: 60vh;">
+      <ul *nzDateCell="let date" class="events">
+        <ng-container *ngFor="let item of getEventsForDate(date)">
+          <li>
+            <nz-badge [nzStatus]="item.type" [nzText]="item.content"></nz-badge>
+          </li>
+        </ng-container>
+      </ul>
+      <ng-container *nzMonthCell="let month">
+        <ng-container *ngIf="getMonthData(month) as monthData">
+          <div class="notes-month">
+            <section>{{ monthData }}</section>
+            <span></span>
+          </div>
+        </ng-container>
+      </ng-container>
+    </nz-calendar>
+  </nz-card>
+ -->
+
+
+
+<div class="Table">
+    
+    <nz-table #basicTable [nzData]="['']"  >
         <thead>
             <tr>
                 <th>Appointment ID</th>
@@ -13,21 +42,46 @@
             </tr>
         </thead>
         <tbody>
-            @for (data of basicTable.data; track data) {
-                <tr>
-                    <td>{{ data.AppointmentID }}</td>
+           
+                <tr *ngFor="let Appointment of AppointmentHistory" >
+                    <td>{{ Appointment.appointmentId }}</td>
                     <!-- <td>{{ data.DoctorName }}</td> -->
-                    <td>{{ data.PatientName }}</td>
-                    <td>{{data.AppointmentDate | date:'fullDate'}}</td>
-                    <td>{{data.AppointmentTime | date:'shortTime'}}</td>
-                    <td>{{data.AppointmentStatus}}</td>
+                    <td>{{ Appointment.patientName }}</td>
+                    <td>{{Appointment.appointmentDate | date:'fullDate'}}</td>
+                    <td>{{Appointment.appointmentTime }}</td>
+                    <td>{{Appointment.status==0?"Scheduled": Appointment.status==1?"Completed":"Cancelled"}}</td>
                     <td>
                         <!-- <a>Action 一 {{  }}</a> -->
                         <!-- <nz-divider nzType="vertical"></nz-divider> -->
-                        <a>Cancel Appointment</a>
+                        <button nz-button nzType="text" [disabled]="Appointment.status!=0" (click)="CancelAppointment(Appointment)" >{{ Appointment.status==0?"Cancel Appointment":"Not Available"}}</button>
                     </td>
                 </tr>
-            }
+            
         </tbody>
     </nz-table>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public environment = environment;
   selectedTheme: ThemeType = 'blue';
   public serverConnectionStatus : boolean;
+  PatientDetails:any;
     
 
 
@@ -35,8 +36,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public _commonService : CommonService,
     private themeService: ThemeService,
     public sidebarservice: SidebarService ){  
+      
+      this.PatientDetails=_commonService.PatientDetails;
     }
-
+    
     ngOnInit(): void {
       this.loadTheme()
     }
@@ -60,6 +63,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
    
+  }
+
+
+  ChangeUser(Patient:any){
+    this._commonService.SelectedPatient=Patient;
   }
 }
 

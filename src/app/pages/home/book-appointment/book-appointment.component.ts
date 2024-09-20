@@ -1,13 +1,8 @@
 import { Component } from '@angular/core';
 import { CommunicationService } from 'src/app/services/communication.service';
-import { HttpParams } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
-interface Appointment{
-  PatientId:string;
-  DoctorId:string;
-  AppointmentDate:Date;
-  AppointmentTime:string;
-}
+import { CommonService } from 'src/app/services/common.service';
+
 
 @Component({
   selector: 'app-book-appointment',
@@ -16,214 +11,135 @@ interface Appointment{
 })
 
 export class BookAppointmentComponent {
-
-  constructor(private _CS:CommunicationService,private datePipe:DatePipe){
+  
+  constructor(private _CS: CommunicationService, private datePipe: DatePipe, public _CommonService: CommonService) {
     
+    this.FetchUserDetails();
     
   }
   
-  UserAppointment:Appointment;
-  PatientPhoneNumber:number;
-  PatientName:string;
-  DoctorId:string;
-  DoctorName:any;
-  selectedDate:any=null;
-  SelectedSlot:any;
-  SelectedSlotId:any;
-  AppointmentTime:any;
+  ngOnInit(){
+  }
   
-  AppointmentID:string="APP123";
   
-  ShowSlots:boolean=true;
+  FetchUserDetails() {
+
+    this._CS.GetUserDetails(localStorage.getItem('username')).subscribe({
+      next: (response: any) => {
+        this._CommonService.PatientDetails = response.patient;
+        this._CommonService.DoctorDetails=response.doctor;
+        const PatientId = localStorage.getItem('SelectedPatient');
+        this._CommonService.SelectedPatient = response.patient.find(p => p.patientId == PatientId)
+        // this.GetPatientAppointmentHistory();
+        this.PatientDetails = this._CommonService.PatientDetails;
+        this.DoctorDetails = this._CommonService.DoctorDetails;
+        this.PatientName = this._CommonService.SelectedPatient.name;
+      }
+    })
+  }
+
+  PatientName: string;
+  DoctorId: string;
+  DoctorName: any;
+  selectedDate: any = null;
+  SelectedSlot: any;
+  SelectedSlotId: any;
+  AppointmentTime: any;
+
+  AppointmentID: string = "APP123";
+
+  ShowSlots: boolean = true;
   isModalVisible = false;
   isModalTestVisible = false;
-  
-  UserDetailsResponse:any;
-  PatientDetails:any;
-  DoctorDetails:any;
-  Slots:any;
+
+  UserDetailsResponse: any;
+  PatientDetails: any;
+  DoctorDetails: any;
+  Slots: any;
 
   footerRender = (): string => '';
+
+  DisabledDate = (current:Date):boolean=>{
+    return current< new Date()
+  }
+
+
   
-GetPatientDetails(){
-  this._CS.GetUserDetails(this.PatientPhoneNumber).subscribe({
-    next: (response:any) => {
-      this.UserDetailsResponse = response;
-      console.log('User Details:', this.UserDetailsResponse);
-      this.PatientDetails=response.patient;
-      this.DoctorDetails=response.doctor;
-      console.log("Patient details :"+this.PatientDetails);
-      console.log("Patient details :"+this.DoctorDetails);
-      
-    },
-    error: (error) => {
-      console.error('Error fetching user details:', error);
-    }
-  });
-}
+  GetSlots() {
 
-GetSlots(){
-  this.selectedDate = this.datePipe.transform(this.selectedDate, 'fullDate');
-    
-  this._CS.GetDoctorSlots(this.selectedDate,this.DoctorId).subscribe({
-    next:(response:any)=>{
-      this.Slots=response;
-    },
-    error:(error)=>{
+    this.selectedDate = this.datePipe.transform(this.selectedDate, 'fullDate');
+    const Doctor = this.DoctorDetails.find(d => d.name == this.DoctorName);
 
-    }
-  })
-}
+    this._CS.GetDoctorSlots(this.selectedDate, Doctor.doctorId).subscribe({
+      next: (response: any) => {
+        this.Slots = response;
+      },
+      error: (error) => {
 
+      }
+    })
+  }
 
-  openModal(modalVariableName:string): void {
-    
-    const GetPatient=  this.PatientDetails.find(p=>p.name==this.PatientName)
+  BookAppointment(modalVariableName: string): void {
 
     this.selectedDate = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd');
-    
+
+    const doctor = this.DoctorDetails.find(d => d.name == this.DoctorName);
+    const patientId = this._CommonService.SelectedPatient.patientId;
+    this.AppointmentTime = this.SelectedSlotId.split(' ')[2];
+
     const Appointment = {
-      doctorId:this.DoctorId,
-      patientId:GetPatient.patientId,
-      appointmentDate:this.selectedDate,
-      appointmentTime:this.AppointmentTime
+      doctorId: doctor.doctorId,
+      patientId: patientId,
+      appointmentDate: this.selectedDate,
+      appointmentTime: this.AppointmentTime
     }
-    
+
+
+
+
     this._CS.BookAppointment(Appointment).subscribe({
-      next:(response:any)=>{
+      next: (response: any) => {
         console.log(response);
-        this.AppointmentID=response.appointmentId;
+        this.AppointmentID = response.appointmentId;
       },
-      error: (error)=>{
+      error: (error) => {
         console.log(error);
-        
+
       }
     });
     this[modalVariableName] = true;
   }
-  
-  onIsVisibleChange(modalVariableName:string,isVisible: boolean): void {
+
+  onIsVisibleChange(modalVariableName: string, isVisible: boolean): void {
     this[modalVariableName] = isVisible;
   }
 
-  SelectedDoctor(Doctor:any){
-    this.DoctorId=Doctor.doctorId;
-    this.DoctorName=Doctor.name;
+  SelectedDoctor(Doctor: any) {
+    this.DoctorId = Doctor.doctorId;
+    this.DoctorName = Doctor.name;
   }
 
-  AddSlot(Slot){
-    this.SelectedSlot=Slot;
-    this.SelectedSlotId=Slot.slotId;
-    this.AppointmentTime=Slot.startTime;
+  AddSlot(Slot) {
+    this.SelectedSlot = Slot;
+    this.AppointmentTime = Slot.startTime;
+    this.SelectedSlotId = `${Slot.slotId} - ${Slot.startTime}`;
   }
 
 
   private convertToISODate(dateString: string): string {
-    // Split the date string and extract the necessary parts
+
     const [dayOfWeek, monthDayYear] = dateString.split(', ');
     const [month, day, year] = monthDayYear.split(' ');
 
-    // Create a new Date object from the extracted parts
-    const monthIndex = new Date(Date.parse(month + " 1, 2021")).getMonth(); // Get month index
+    const monthIndex = new Date(Date.parse(month + " 1, 2021")).getMonth();
     const date = new Date(Number(year), monthIndex, Number(day));
 
-    // Convert to ISO string
     return date.toISOString();
   }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-  DummyArray:any=[
-    {
-      SlotId:"S1",
-      Timing:"9:00-9:30"
-    },
-    {
-      SlotId :"S2",
-      Timing :"9:30-10:00"
-
-    }
-  ]
-
-  Patients:any=[
-    {
-      PatientName:"Patient One"
-    }
-    ,
-    {
-      PatientName:"Patient Two"
-    }
-  ]
-    
-  DoctorList :any=[
-    {
-      DoctorId:1,
-      DoctorName:"Dr.AnandKumar Sajjan",
-      DoctorSpecialization:"Maxofacial Surgeon"
-    },
-    {
-      DoctorId: 1,
-      DoctorName: "Dr. Anil Sharma",
-      DoctorSpecialization: "Cardiologist"
-    },
-    {
-      DoctorId: 2,
-      DoctorName: "Dr. Priya Patel",
-      DoctorSpecialization: "Gynecologist"
-    },
-    {
-      DoctorId: 3,
-      DoctorName: "Dr. Rajesh Kumar",
-      DoctorSpecialization: "Orthopedic Surgeon"
-    },
-    {
-      DoctorId: 4,
-      DoctorName: "Dr. Neha Singh",
-      DoctorSpecialization: "Pediatrician"
-    },
-    {
-      DoctorId: 5,
-      DoctorName: "Dr. Arvind Gupta",
-      DoctorSpecialization: "Dermatologist"
-    },
-    {
-      DoctorId: 6,
-      DoctorName: "Dr. Anushka Reddy",
-      DoctorSpecialization: "Ophthalmologist"
-    },
-    {
-      DoctorId: 7,
-      DoctorName: "Dr. Vikram Sharma",
-      DoctorSpecialization: "Neurologist"
-    },
-    {
-      DoctorId: 8,
-      DoctorName: "Dr. Aarti Desai",
-      DoctorSpecialization: "Endocrinologist"
-    },
-    {
-      DoctorId: 9,
-      DoctorName: "Dr. Ravi Menon",
-      DoctorSpecialization: "Urologist"
-    },
-    {
-      DoctorId: 10,
-      DoctorName: "Dr. Suman Sharma",
-      DoctorSpecialization: "General Physician"
-    }
-  ]  
+  
 }
 

@@ -17,24 +17,32 @@
  
    
     <div class="right-header">
-
+      
       <div style="display: flex; gap: 5px; align-items: center;">
-        <div class="phone">
+        <div  *ngIf="_commonService.SelectedPatient.name" class="phone">
           <!-- <span nz-icon nzType="mail" nzTheme="outline"></span> <a href="mailto:sperrysurveysolutions@halliburton.com">SperrySurveySolutions&#64;Halliburton.com</a> -->
+          <button nz-button nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight">{{_commonService.SelectedPatient.name}}</button>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li *ngFor="let Patient of _commonService.PatientDetails" (click)="ChangeUser(Patient)" nz-menu-item>{{Patient.name}}</li>
+             
+            </ul>
+          </nz-dropdown-menu>
         </div>
+        <button  *ngIf="_authService.isLoggedIn()"  (click)="_authService.logoutT()" nz-button nzType="primary">Log Out</button>
       </div>
-
-       <nz-select [(ngModel)]="selectedTheme" (ngModelChange)="loadTheme()">
-              <nz-option *ngFor="let theme of themeOptions" [nzLabel]="theme.label" [nzValue]="theme.value"></nz-option>
-        </nz-select>
-
-        <div class="user-info" *ngIf="environment.userAuthentication && _authService.userInfo">
-            <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="userInfoMenu" class="user-info">
-            <span>{{_authService.userInfo?.name}}</span>
-            <nz-avatar title="Profile" nzIcon="user"></nz-avatar>
-            <i nz-icon nzType="caret-down" nzTheme="outline"></i> 
-          </a>
-        </div>
+      
+      <nz-select [(ngModel)]="selectedTheme" (ngModelChange)="loadTheme()">
+        <nz-option *ngFor="let theme of themeOptions" [nzLabel]="theme.label" [nzValue]="theme.value"></nz-option>
+      </nz-select>
+      
+      <div class="user-info" *ngIf="environment.userAuthentication && _authService.userInfo">
+        <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="userInfoMenu" class="user-info">
+          <span>{{_authService.userInfo?.name}}</span>
+          <nz-avatar title="Profile" nzIcon="user"></nz-avatar>
+          <i nz-icon nzType="caret-down" nzTheme="outline"></i> 
+        </a>
+      </div>
 
           
 

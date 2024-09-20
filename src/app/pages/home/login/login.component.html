@@ -1,0 +1,18 @@
+<div class="Login">
+    <nz-card class="LoginBlock">
+
+        <div class="InputBlock">
+
+            <h2 class="Header">Login into your account!</h2>
+
+            <input nz-input placeholder="Enter your Phone Number..." [(ngModel)]="UserName" type="number" class="InputElements" />  
+            
+            <input nz-input placeholder="Enter your Password.." [(ngModel)]="Password" [disabled]="true" class="InputElements" />
+
+            <button nz-button nzType="primary"  (click)="GetUserDetails()" class="InputElements LoginButton" >Login</button>
+
+
+        </div>
+
+    </nz-card>
+</div>
