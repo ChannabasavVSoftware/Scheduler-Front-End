@@ -47,24 +47,42 @@ export class CommunicationService {
 
   }
 
-  public GetPatientAppointmentHistory(PatientId:any){
+  public GetPatientAppointmentHistory(PatientId: any) {
 
 
-    console.log("Patient ID : "+PatientId);
+    console.log("Patient ID : " + PatientId);
     let params = new HttpParams()
-    .set('patientId',PatientId);
+      .set('patientId', PatientId);
 
-    return this._http.get(`${environment.baseUrl}/Appointments/GetPatientAppointmentHistory`,{params});
+    return this._http.get(`${environment.baseUrl}/Appointments/GetPatientAppointmentHistory`, { params });
   }
 
 
-public GetDoctorAppointmentHistory(DoctorId:any){
-  
-  let params = new HttpParams()
-  .set('doctorId',DoctorId);
 
-  return this._http.get(`${environment.baseUrl}/Appointments/GetDoctorAppointmentHistory`,{params});
-}
+  public GetDoctorAppointmentHistory(DoctorId: any) {
+    let params = new HttpParams()
+      .set('doctorId', DoctorId);
+
+    return this._http.get(`${environment.baseUrl}/Appointments/GetDoctorAppointmentHistory`, { params });
+  }
+
+  public CancelAppointment(Appointment){
+
+    console.log(Appointment);
+    
+    return this._http.put(`${environment.baseUrl}/Appointments`,Appointment);
+  }
+
+  public CreateNewSchedule(NewSchedule){
+    return this._http.post(`${environment.baseUrl}/TimeAvailability`,NewSchedule)
+  }
+
+  public GetSchedules(DoctorId){
+    let params = new HttpParams()
+    .set('DoctorId',DoctorId);
+
+    return this._http.get(`${environment.baseUrl}/TimeAvailability/GetByDoctorId`,{params})
+  }
 
 
 
