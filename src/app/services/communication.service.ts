@@ -84,6 +84,26 @@ export class CommunicationService {
     return this._http.get(`${environment.baseUrl}/TimeAvailability/GetByDoctorId`,{params})
   }
 
+  public AddPatient(Patient: any) {
+    return this._http.post(`${environment.baseUrl}/Patient`, Patient);
+  }
+
+  public AddLeave(Leave: any) {
+    return this._http.post(`${environment.baseUrl}/Leave`, Leave);
+  }
+
+  public GetDoctorLeaveById(DocterId) {
+    let params = new HttpParams()
+      .set('id', DocterId);
+    const url = `${environment.baseUrl}/Leave/GetByDoctorId`;
+    return this._http.get(url, {params});
+  }
+
+  public GetHolidays(){
+    const url = `${environment.baseUrl}/Holidays`;
+    return this._http.get(url)
+  }
+
 
 
 
