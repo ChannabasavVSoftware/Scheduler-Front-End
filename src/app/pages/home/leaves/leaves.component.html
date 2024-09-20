@@ -1,47 +1,52 @@
 <div class="Leave">
     <div class="LeaveInput">
 
-        <nz-card  class="LeaveInput" style="padding: 30px;">
-            <p style="font-size:25px; text-align:center" >Apply for Leave</p>
-            
-            <p class="LeaveAttribute" >Enter Start and End date : </p>
-            <nz-range-picker [nzSize]="size"></nz-range-picker>
+        <nz-card class="LeaveInput" style="padding: 30px;">
+            <p style="font-size:25px; text-align:center">Apply for Leave</p>
+
+            <p class="LeaveAttribute">Enter Leave Type :</p>
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a Leave Type" nzSize="large"
+                [(ngModel)]="leaveType" (ngModelChange)="onLeaveTypeChange($event)" style="width:96%; height:40px;">
+                <nz-option nzLabel="Full Day Leave" nzValue=0></nz-option>
+                <nz-option nzLabel="Partial Day Leave" nzValue=1></nz-option>
+            </nz-select>
+
+            <p class="LeaveAttribute" *ngIf="leaveType == 1">Enter Date:</p>
+            <nz-date-picker *ngIf="leaveType == 1" [(ngModel)]="partialDate" (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableLeaveDates"
+                style="width:96%; height:40px;">
+            </nz-date-picker>
+
+            <p class="LeaveAttribute" *ngIf="leaveType == 0">Enter Start and End Date:</p>
+            <nz-range-picker *ngIf="leaveType == 0" nzSize="large" [(ngModel)]="dateRange"
+                (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableLeaveDates"
+                [disabled]="leaveType == null" style="width:96%; height:40px;">
+            </nz-range-picker>
 
             <p class="LeaveAttribute">Enter Start Time :</p>
-            <nz-time-picker
-            [(ngModel)]="time"
-            [nzUse12Hours]="true"
-            (ngModelChange)="log($event)"
-            nzFormat="h:mm a"
-          ></nz-time-picker>
+            <nz-time-picker [(ngModel)]="startTime" [nzFormat]="'HH:mm'" [nzUse12Hours]="false"  [nzDisabledHours]="disableTimeSlots().nzDisabledHours"
+            [nzDisabledMinutes]="disableTimeSlots().nzDisabledMinutes"
+                [disabled]="leaveType == 0 || leaveType == null" style="width:96%; height:40px;"></nz-time-picker>
 
-          <p class="LeaveAttribute">Enter End Time :</p>
-            <nz-time-picker
-            [(ngModel)]="time"
-            [nzUse12Hours]="true"
-            (ngModelChange)="log($event)"
-            nzFormat="h:mm a"
-          ></nz-time-picker>
+            <p class="LeaveAttribute">Enter End Time :</p>
+            <nz-time-picker [(ngModel)]="endTime" [nzFormat]="'HH:mm'" [nzUse12Hours]="false" [nzDisabledHours]="disableTimeSlots().nzDisabledHours"
+            [nzDisabledMinutes]="disableTimeSlots().nzDisabledMinutes"
+                [disabled]="leaveType == 0 || leaveType == null" style="width:96%; height:40px;"></nz-time-picker>
 
-          <p class="LeaveAttribute">Enter Leave Type :</p>
-         
-          <input nz-input placeholder="Enter the Leave Type"  list="LeaveTypes" class="LeaveAttributeInput" /> 
-          <datalist id="LeaveTypes">
-              <option value="Full Day Leave"></option>
-              <option value="Partial Day Leave"></option>
-            </datalist> 
-            
             <p class="LeaveAttribute">Enter Leave Reason :</p>
-            <input nz-input placeholder="Enter the Leave Reason"  class="LeaveAttributeInput" /> 
+            <input nz-input placeholder="Enter the Leave Reason" class="LeaveAttributeInput" [(ngModel)]="description"
+                style="width:96%; height:40px;" />
 
-            <button class="AddPatient" 
-            nz-button nzType="primary" style="width:100%; height:40px; margin-top: 20px;;">Apply Leave</button>
-
+            <button class="AddPatient" (click)="addLeave($event)" nz-button nzType="primary"
+                [disabled]="!leaveType || !startDate || (leaveType == 0 && !endDate) || !description || description.trim() === ''"
+                style="width:96%; height:40px; margin-top: 20px;">
+                Apply Leave
+            </button>
         </nz-card>
     </div>
 
     <div class="LeaveTable">
-        <nz-table #basicTable [nzData]="listOfData"  >
+
+        <nz-table #basicTable [nzData]="listOfLeave" [nzPageSize]="19" [nzScroll]="{ y: '700px' }">
             <thead>
                 <tr>
                     <th>Leave ID</th>
@@ -49,31 +54,24 @@
                     <th>End Date</th>
                     <th>Start Time</th>
                     <th>End Time</th>
-                    <th>Leave Type</th>
-                    <th>Reason</th>
+                    <th nzColumnKey="leaveType" [nzFilters]="leaveTypeFilters" [nzFilterFn]="filterByType">Leave Type
+                    </th>
+                    <th nzColumnKey="description">Description</th>
                 </tr>
             </thead>
             <tbody>
-                @for (data of basicTable.data; track data) {
-            <tr>
-              <td>{{ data.AppointmentID }}</td>
-              <td>{{ data.DoctorName }}</td>
-              <td>{{ data.PatientName }}</td>
-              <td>{{data.AppointmentDate | date:'fullDate'}}</td>
-              <td>{{data.AppointmentTime | date:'shortTime'}}</td>
-              <td>{{data.AppointmentStatus}}</td>
-              <td>
-                  <!-- <a>Action 一 {{  }}</a> 
-                  <nz-divider nzType="vertical"></nz-divider> -->
-                <a>Cancel Leave</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-    </nz-table>
+                <tr *ngFor="let data of basicTable.data">
+                    <td>{{data.leaveId}}</td>
+                    <td>{{data.startDate | date:'mediumDate'}}</td>
+                    <td>{{data.endDate | date:'mediumDate'}}</td>
+                    <td>{{data.startTime}}</td>
+                    <td>{{data.endTime}}</td>
+                    <td>{{data.leaveType == 0 ? "Full Day" : "Partial" }}</td>
+                    <td>{{data.description}}</td>
+                </tr>
+            </tbody>
+        </nz-table>
 
 
-
-        
     </div>
 </div>

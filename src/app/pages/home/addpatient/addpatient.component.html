@@ -1,18 +1,29 @@
-
-
 <!-- <div class="example-input "> -->
 <div class="PatientInput">
-    <nz-card class="AddPatientCard" >
-        <div class="PatientTitle">Add a new patient</div>
-        
-        
-        <input nz-input placeholder="Enter the patient name..." nzSize="large" style="width:400px; height:40px; margin-top:40px;"/>
-        <input nz-input placeholder="Enter gender..." nzSize="large"  style="width:400px; height:40px; margin-top: 20px;" />
-        <nz-date-picker class="DatePicker">Select Date of Birth</nz-date-picker>
-        <input type="number" nz-input placeholder="Enter the phone number..." nzSize="large"  style="width:400px; height:40px; margin-top: 20px;" />
-        <input  type="email" nz-input placeholder="Enter the E-Mail..." nzSize="large"  style="width:400px; height:40px; margin-top: 20px;" />
-        <button class="AddPatient"  nz-button nzType="primary">Add Patient</button>
-        
+    <nz-card class="AddPatientCard">
+        <div class="PatientTitle">Add a New Patient</div>
+
+        <p class="AddPatirentAttribute">Name</p>
+        <input nz-input placeholder="Enter the patient name..." nzSize="large" [(ngModel)]="Name"
+            style="width:100%; height:40px; " />
+
+        <p class="AddPatirentAttribute">Gender</p>
+        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a Gender" nzSize="large" [(ngModel)]=selectedGender
+            style="width:100%; height:40px;">
+            <nz-option nzLabel="Male" nzValue=0></nz-option>
+            <nz-option nzLabel="Female" nzValue=1></nz-option>
+            <nz-option nzLabel="Others" nzValue=2></nz-option>
+        </nz-select>
+        <p class="AddPatirentAttribute">Date of Birth</p>
+        <nz-date-picker class="DatePicker" [(ngModel)]="DOB"></nz-date-picker>
+        <p class="AddPatirentAttribute">Mobile Number</p>
+        <input type="text" nz-input placeholder="Enter the phone number..." nzSize="large" [(ngModel)]="ContactNumber"
+            style="width:100%; height:40px;" />
+        <p class="AddPatirentAttribute">Email</p>
+        <input type="email" nz-input placeholder="Enter the E-Mail..." nzSize="large" [(ngModel)]="Email"
+            style="width:100%; height:40px;" />
+        <button class="AddPatient" (click)="addPatient()" nz-button nzType="primary" [disabled]="!Name || !selectedGender || !DOB || !Email || !ContactNumber">Add Patient</button>
+
     </nz-card>
 </div>
 
