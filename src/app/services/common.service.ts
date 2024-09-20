@@ -3,6 +3,7 @@ import { OktaAuthService } from 'src/app/services/oktaAuth.service';
 import { OktaAuthStateService, OKTA_AUTH } from '@okta/okta-angular';
 import { OktaAuth } from '@okta/okta-auth-js';
 import { environment } from 'src/environments/environment';
+import { CommunicationService } from './communication.service';
 
 
 interface Claim {
@@ -32,6 +33,11 @@ export class CommonService implements OnInit, AfterViewInit {
   claims: Array<Claim>;
 
 
+  PatientDetails:any;
+  DoctorDetails:any;
+  SelectedPatient:any="";
+
+
   
 
 
@@ -40,15 +46,39 @@ export class CommonService implements OnInit, AfterViewInit {
   constructor(
     public oktaAuthService: OktaAuthService,
     public authService: OktaAuthStateService,
+    private CommuncicationService:CommunicationService,
     @Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
       if(environment.userAuthentication){
         this.checkAuth()
       }
+    }
+    
+    
+    ngOnInit() {
+      
+      this.FetchPatientDetails();
+      const SelectedPatientId = localStorage.getItem('SelectedPatient');
+      console.log("Selected Patient Id : "+SelectedPatientId)
+      this.SelectedPatient=this.PatientDetails.find(p=>p.patientId==SelectedPatientId)
+      console.log("Selected Patient"+this.SelectedPatient);
+    
+    
   }
 
- 
-  ngOnInit() {
+  FetchPatientDetails(){
+    this.CommuncicationService.GetUserDetails(localStorage.getItem('username')).subscribe({
+      next:(response:any)=>{
+        this.PatientDetails=response.patient;
+        this.DoctorDetails=response.doctor;
+      }
+    })
+
   }
+
+
+
+
+
 
   async checkAuth(){
     if (environment.userAuthentication) {
@@ -86,6 +116,16 @@ export class CommonService implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void { }
+
+
+
+  SetUserDetails(Patient:any){
+    this.PatientDetails=Patient;
+
+  }
+
+
+ 
 
 
   

@@ -55,7 +55,7 @@ export class SidebarComponent {
   }
 
   ngOnInit(): void {
-    this.getVersion();
+    // this.getVersion();
   }
 
 

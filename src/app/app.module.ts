@@ -18,10 +18,14 @@ import { HeaderComponent } from './layout/header/header.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { SharedModule } from './shared-module/shared.module';
-import { BookAppointmentComponent } from './pages/home/book-appointment/book-appointment.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NzPageHeaderFooterDirective } from 'ng-zorro-antd/page-header';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+
+import { FullCalendarModule } from '@fullcalendar/angular';
+// import { FullCalendarComponent } from './full-calendar/full-calendar.component';
+
+
 
 
 
@@ -45,6 +49,9 @@ const oktaAuth = new OktaAuth(config);
     HeaderComponent,
     SidebarComponent,
     FooterComponent,
+    // FullCalendarComponent
+    
+    
     // BookAppointmentComponent,
     // ModalComponent
   ],
@@ -58,6 +65,7 @@ const oktaAuth = new OktaAuth(config);
     SharedModule,
     NgbModule,
     NzPageHeaderFooterDirective,
+    FullCalendarModule
     // NzNotificationService
   ],
   providers: [

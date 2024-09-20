@@ -4,7 +4,9 @@
         <nz-card class="DetailsInput">
 
             <div style="font-size:25px; text-align:center; margin-top: 20px;">Book Appointment </div>
-            <div style="margin-left: 30px; margin-left:30px;">
+
+            <!-- 
+          <div style="margin-left: 30px; margin-left:30px;">
                 <div style=" font-size: 20px; margin-top: 20px;">Enter Patient phone number : </div>
 
                 <input id="Dummy" nz-input style="margin: 10px 0px 10px 0px; width:26vw; height: 40px;  "
@@ -23,15 +25,77 @@
                 <input nz-input style="margin: 10px 0px 10px 0px; width:26vw; height: 40px;"
                     list="PatientListOptions" [(ngModel)]="PatientName" placeholder="Select patient...">
 
+            </div> -->
+
+
+
+
+            <div style="margin-left: 30px; margin-left:30px;">
+                <div style=" font-size: 20px; margin-top: 20px;">Select Doctor : </div>
+
+
+
+                <input  nz-input style="margin: 10px 0px 10px 0px; width:26vw; height: 40px;  "
+                     [(ngModel)]="DoctorName" list="doctors"
+                    placeholder="Select doctor...">
+
+                
+                <datalist id="doctors">
+                    <option *ngFor="let doctor of DoctorDetails" [value]="doctor.name"></option>
+                </datalist>
+
             </div>
 
 
             <div style="margin-left: 30px; margin-left:30px; ">
                 <div style=" font-size: 20px;">Select appointment date</div>
-                <nz-date-picker [nzRenderExtraFooter]="footerRender" [(ngModel)]="selectedDate" class="DatePicker"
-                    (nzOnChange)="GetSlots()"></nz-date-picker>
-                <button nz-button type="submit"  [disabled]="!this.DoctorId|| !this.selectedDate" (click)="GetSlots()" style="margin-top: 10px;">Get Slots</button>
+                <nz-date-picker
+                 [nzRenderExtraFooter]="footerRender" 
+                 [(ngModel)]="selectedDate" class="DatePicker"
+                (nzOnChange)="GetSlots()"
+                [nzDisabledDate]="DisabledDate"
+                ></nz-date-picker>
+                <button nz-button type="submit" [disabled]="!this.DoctorName|| !this.selectedDate" (click)="GetSlots()"
+                    style="margin-top: 10px;">Get Slots</button>
             </div>
+
+
+            <div style="margin-left: 30px; margin-left:30px;">
+                <div style=" font-size: 20px;">Select Slot :</div>
+
+                <datalist id="Slots">
+                    <option *ngFor="let slot of this.Slots" [value]="slot.slotId+' - '+slot.startTime"></option>
+                </datalist>
+
+                <input nz-input style="margin: 10px 0px 10px 0px; width:26vw; height: 40px;" list="Slots"
+                    [(ngModel)]="SelectedSlotId" placeholder="Select slot...">
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             <!-- *ngIf="SelectedDoctor && selectedDate && PatientName && SelectedSlot" -->
@@ -39,7 +103,7 @@
 
 
                 <div style="margin-left: 30px; font-size: 15px;">
-                    Patient Name : {{PatientName}}
+                    Patient Name : {{_CommonService.SelectedPatient.name}}
                 </div>
 
                 <div style="margin-left: 30px; font-size: 15px;">
@@ -60,7 +124,9 @@
                     <p>Your appointment ID is {{AppointmentID}} .</p>
                 </app-modal>
 
-                <button nz-button nzType="primary" [disabled]="!DoctorId || !selectedDate || !PatientName || !SelectedSlotId" (click)="openModal('isModalTestVisible')" class="BookAppointment">Book
+                <button nz-button nzType="primary"
+                    [disabled]="!DoctorName || !selectedDate || !SelectedSlotId"
+                    (click)="BookAppointment('isModalTestVisible')" class="BookAppointment">Book
                     Appointment
                 </button> <br /><br />
 
@@ -78,24 +144,48 @@
 
         <div style=" font-size:30px;  ">Doctors</div>
 
-        <div class="DoctorBlock" style="display:flex; flex-wrap:wrap;  flex-direction:row; ">
+        <!-- <div class="DoctorBlock" style="display:flex; flex-wrap:wrap;  flex-direction:row; ">
 
 
             <div *ngIf="!PatientPhoneNumber ">Enter the Patient Phone Number to view available doctors... </div>
             <div *ngFor="let doctor of DoctorDetails" (click)="SelectedDoctor(doctor)"
-                style="padding:0px;  margin:10px; border-radius:5px; width: 104px;">
+            [ngClass]="{'selected-doctor': doctor.name === DoctorName}"
+                style="padding:0px;  margin:10px; border-radius:5px; width: 104px; cursor: pointer;">
 
                 <img src="https://th.bing.com/th?id=OIP.zEnScPNkyUIkfdkPJejXiAHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&cb=13&pid=3.1&rm=2"
                     width="100px" height="100px" class="card-img-top" alt="Doctor Image" />
 
                 <div class="card-body">
                     <h4 style="font-size: 15px; margin:0px">{{doctor.name}}</h4>
-                    <!-- <p class="card-text">{{doctor.DoctorSpecialization}} </p> -->
-                </div>
+                     <p class="card-text">{{doctor.DoctorSpecialization}} </p> -->
+        <!-- </div>
 
             </div>
 
+        </div> -->
+
+
+        <div class="DoctorBlock" style="display:flex; flex-wrap:wrap; flex-direction:row;">
+            <!-- <div *ngIf="!PatientPhoneNumber">
+                Enter the Patient Phone Number to view available doctors...
+            </div> -->
+            <div *ngFor="let doctor of DoctorDetails" (click)="SelectedDoctor(doctor)"
+                [ngClass]="{'selected-doctor': doctor.name === DoctorName}" class="doctor-card"
+                style="padding:0px; margin:10px; border-radius:5px; width: 104px; position: relative; cursor: pointer;">
+                <img src="https://th.bing.com/th?id=OIP.zEnScPNkyUIkfdkPJejXiAHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&cb=13&pid=3.1&rm=2"
+                    width="100px" height="100px" class="card-img-top" alt="Doctor Image" />
+                <div class="card-body">
+                    <h4 style="font-size: 15px; margin:0px">{{doctor.name}}</h4>
+                </div>
+                <!-- Tick Mark -->
+                <div *ngIf="doctor.name === DoctorName" class="tick-mark">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="currentColor" />
+                    </svg>
+                </div>
+            </div>
         </div>
+
 
 
 
@@ -103,13 +193,27 @@
 
 
         </div>
-            <div class="SlotBlock">
-                <div *ngIf="!selectedDate || !DoctorName">Select appointment date and doctor to view the slots... </div>
-                <div *ngFor="let slot of this.Slots" [ngClass]="{'U-Slot':slot.status=='Unavailable'}"
-                    (click)="AddSlot(slot)" class="Slot">
-                    {{slot.slotId}}
-                    <div>{{slot.startTime}}</div>
+        <div class="SlotBlock">
+            <div *ngIf="!selectedDate || !DoctorName">Select appointment date and doctor to view the slots... </div>
+            <div *ngIf="selectedDate && DoctorName" class="SlotBlock" >
+
+                <div  *ngFor="let slot of this.Slots"
+                [ngClass]="{'U-Slot':slot.status=='Unavailable','selected-slot': slot.slotId === SelectedSlotId}"
+                (click)="AddSlot(slot)" class="Slot">
+                {{slot.slotId}}
+                <div>{{slot.startTime}}</div>
+                
+                <div *ngIf="slot === SelectedSlot" class="tick-mark">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="currentColor" />
+                        
+                    </svg>
+                    
                 </div>
+                
+                
+            </div>
+        </div>
 
 
 

@@ -7,7 +7,7 @@
             <tr>
                 <th>Appointment ID</th>
                 <th>Doctor Name</th>
-                <th>Patient Name</th>
+                <!-- <th>Patient Name</th> -->
                 <th>Appointment Date</th>
                 <th>Appointment Time</th>
                 <th>Status</th>
@@ -15,21 +15,21 @@
             </tr>
         </thead>
         <tbody>
-            @for (data of basicTable.data; track data) {
-        <tr>
-          <td>{{ data.AppointmentID }}</td>
-          <td>{{ data.DoctorName }}</td>
-          <td>{{ data.PatientName }}</td>
-          <td>{{data.AppointmentDate | date:'fullDate'}}</td>
-          <td>{{data.AppointmentTime | date:'shortTime'}}</td>
-          <td>{{data.AppointmentStatus}}</td>
+            
+        <tr *ngFor="let Appointment of AppointmentHistory">
+          <td>{{ Appointment.appointmentId }}</td>
+          <td>{{ Appointment.doctorName }}</td>
+          <!-- <td>{{ Appointment.patientId }}</td> -->
+          <td>{{ Appointment.appointmentDate | date:'fullDate'}}</td>
+          <td>{{ Appointment.appointmentTime }}</td>
+          <td>{{ Appointment.status==0?"Scheduled":  Appointment.status==1?"Completed":"Canceled"}}</td>
           <td>
               <!-- <a>Action 一 {{  }}</a> 
               <nz-divider nzType="vertical"></nz-divider> -->
-            <a>Cancel Appointment</a>
+            <button nz-button nzType="text" (click)="CancelAppointment(Appointment)" [disabled]="Appointment.status!=0">Cancel Appointment</button>
         </td>
     </tr>
-}
+
 </tbody>
 </nz-table>
 </div>
