@@ -1,24 +1,70 @@
-.Leave {
-    margin: 40px;
-    display: flex;
-    justify-content: space-around;
+.leave-container {
+  padding: 20px;
+}
+
+.leave-card {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.leave-title {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.leave-attribute {
+  font-size: 16px;
+  margin: 10px 0;
+  padding-top: 20px ;
+
+  padding-bottom: 10px;
+}
+
+.apply-leave-btn {
+  width: 100%;
+  margin-top: 20px;
+  height: 40px;
+}
+
+.nz-select,
+.nz-date-picker,
+.nz-range-picker,
+.nz-time-picker,
+.ant-input {
+  width: 100%;
+}
+
+.nz-col {
+  padding: 0 15px; /* Add padding to create space between columns */
+}
+
+@media (max-width: 767px) {
+  .leave-container {
+    padding: 10px;
   }
-  
-  .LeaveInput {
-    width: 25vw;
+
+  .leave-card {
+    padding: 10px;
+    margin-bottom: 20px; /* Ensure there's space below the card */
   }
-  
-  .LeaveTable {
-    width: 60vw;
-  }
-  
-  .LeaveAttribute {
-    padding: 10px 0;
+
+  .leave-title {
     font-size: 20px;
-    font-weight: 300;
   }
-  
-  nz-range-picker, nz-time-picker {
-    width: 100%;
+
+  .leave-attribute {
+    font-size: 14px;
   }
-  
+
+  .apply-leave-btn {
+    height: 35px;
+  }
+}
+
+/* Extra spacing for larger screens */
+@media (min-width: 992px) {
+  .leave-card {
+    margin-right: 20px; /* Space between form and table */
+  }
+}

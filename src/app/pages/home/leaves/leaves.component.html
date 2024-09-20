@@ -1,77 +1,70 @@
-<div class="Leave">
-    <div class="LeaveInput">
-
-        <nz-card class="LeaveInput" style="padding: 30px;">
-            <p style="font-size:25px; text-align:center">Apply for Leave</p>
-
-            <p class="LeaveAttribute">Enter Leave Type :</p>
-            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a Leave Type" nzSize="large"
-                [(ngModel)]="leaveType" (ngModelChange)="onLeaveTypeChange($event)" style="width:96%; height:40px;">
-                <nz-option nzLabel="Full Day Leave" nzValue=0></nz-option>
-                <nz-option nzLabel="Partial Day Leave" nzValue=1></nz-option>
-            </nz-select>
-
-            <p class="LeaveAttribute" *ngIf="leaveType == 1">Enter Date:</p>
-            <nz-date-picker *ngIf="leaveType == 1" [(ngModel)]="partialDate" (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableLeaveDates"
-                style="width:96%; height:40px;">
-            </nz-date-picker>
-
-            <p class="LeaveAttribute" *ngIf="leaveType == 0">Enter Start and End Date:</p>
-            <nz-range-picker *ngIf="leaveType == 0" nzSize="large" [(ngModel)]="dateRange"
-                (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableLeaveDates"
-                [disabled]="leaveType == null" style="width:96%; height:40px;">
-            </nz-range-picker>
-
-            <p class="LeaveAttribute">Enter Start Time :</p>
-            <nz-time-picker [(ngModel)]="startTime" [nzFormat]="'HH:mm'" [nzUse12Hours]="false"  [nzDisabledHours]="disableTimeSlots().nzDisabledHours"
-            [nzDisabledMinutes]="disableTimeSlots().nzDisabledMinutes"
-                [disabled]="leaveType == 0 || leaveType == null" style="width:96%; height:40px;"></nz-time-picker>
-
-            <p class="LeaveAttribute">Enter End Time :</p>
-            <nz-time-picker [(ngModel)]="endTime" [nzFormat]="'HH:mm'" [nzUse12Hours]="false" [nzDisabledHours]="disableTimeSlots().nzDisabledHours"
-            [nzDisabledMinutes]="disableTimeSlots().nzDisabledMinutes"
-                [disabled]="leaveType == 0 || leaveType == null" style="width:96%; height:40px;"></nz-time-picker>
-
-            <p class="LeaveAttribute">Enter Leave Reason :</p>
-            <input nz-input placeholder="Enter the Leave Reason" class="LeaveAttributeInput" [(ngModel)]="description"
-                style="width:96%; height:40px;" />
-
-            <button class="AddPatient" (click)="addLeave($event)" nz-button nzType="primary"
-                [disabled]="!leaveType || !startDate || (leaveType == 0 && !endDate) || !description || description.trim() === ''"
-                style="width:96%; height:40px; margin-top: 20px;">
-                Apply Leave
-            </button>
+<div class="leave-container">
+    <nz-row>
+      <nz-col nzSpan="24" nzLg="8" nzMd="12" nzSm="24" >
+        <nz-card class="leave-card">
+          <p class="leave-title">Apply for Leave</p>
+  
+          <p class="leave-attribute">Enter Leave Type:</p>
+          <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a Leave Type" nzSize="large"
+            [(ngModel)]="leaveType" (ngModelChange)="onLeaveTypeChange($event)" style="width:100%;">
+            <nz-option nzLabel="Full Day Leave" nzValue=0></nz-option>
+            <nz-option nzLabel="Partial Day Leave" nzValue=1></nz-option>
+          </nz-select>
+  
+          <p class="leave-attribute" *ngIf="leaveType == 1">Enter Date:</p>
+          <nz-date-picker *ngIf="leaveType == 1" [(ngModel)]="partialDate" (ngModelChange)="onDateChange($event)"
+            [nzDisabledDate]="disableLeaveDates" style="width:100%;"></nz-date-picker>
+  
+          <p class="leave-attribute" *ngIf="leaveType == 0">Enter Start and End Date:</p>
+          <nz-range-picker *ngIf="leaveType == 0" nzSize="large" [(ngModel)]="dateRange" (ngModelChange)="onDateChange($event)"
+            [nzDisabledDate]="disableLeaveDates" [disabled]="leaveType == null" style="width:100%; height: 40px;"></nz-range-picker>
+  
+          <p class="leave-attribute">Enter Start Time:</p>
+          <nz-time-picker [(ngModel)]="startTime" [nzFormat]="'HH:mm'" [nzUse12Hours]="false"
+            [nzDisabledHours]="disableTimeSlots().nzDisabledHours" [nzDisabledMinutes]="disableTimeSlots().nzDisabledMinutes"
+            [disabled]="leaveType == 0 || leaveType == null" style="width:100%; height: 40px;"></nz-time-picker>
+  
+          <p class="leave-attribute">Enter End Time:</p>
+          <nz-time-picker [(ngModel)]="endTime" [nzFormat]="'HH:mm'" [nzUse12Hours]="false"
+            [nzDisabledHours]="disableTimeSlots().nzDisabledHours" [nzDisabledMinutes]="disableTimeSlots().nzDisabledMinutes"
+            [disabled]="leaveType == 0 || leaveType == null" style="width:100%; height: 40px;"></nz-time-picker>
+  
+          <p class="leave-attribute">Enter Leave Reason:</p>
+          <input nz-input placeholder="Enter the Leave Reason" [(ngModel)]="description" style="width:100%; height: 40px;"/>
+  
+          <button class="apply-leave-btn" (click)="addLeave($event)" nz-button nzType="primary"
+            [disabled]="!leaveType || !startDate || (leaveType == 0 && !endDate) || !description || description.trim() === ''">
+            Apply Leave
+          </button>
         </nz-card>
-    </div>
-
-    <div class="LeaveTable">
-
-        <nz-table #basicTable [nzData]="listOfLeave" [nzPageSize]="19" [nzScroll]="{ y: '700px' }">
-            <thead>
-                <tr>
-                    <th>Leave ID</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                    <th nzColumnKey="leaveType" [nzFilters]="leaveTypeFilters" [nzFilterFn]="filterByType">Leave Type
-                    </th>
-                    <th nzColumnKey="description">Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let data of basicTable.data">
-                    <td>{{data.leaveId}}</td>
-                    <td>{{data.startDate | date:'mediumDate'}}</td>
-                    <td>{{data.endDate | date:'mediumDate'}}</td>
-                    <td>{{data.startTime}}</td>
-                    <td>{{data.endTime}}</td>
-                    <td>{{data.leaveType == 0 ? "Full Day" : "Partial" }}</td>
-                    <td>{{data.description}}</td>
-                </tr>
-            </tbody>
+      </nz-col>
+  
+      <nz-col nzSpan="24" nzLg="16" nzMd="12" nzSm="24">
+        <nz-table #basicTable [nzData]="listOfLeave" [nzPageSize]="19" [nzScroll]="{ y: '600px' }">
+          <thead>
+            <tr>
+              <th>Leave ID</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th nzColumnKey="leaveType" [nzFilters]="leaveTypeFilters" [nzFilterFn]="filterByType">Leave Type</th>
+              <th nzColumnKey="description">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of basicTable.data">
+              <td>{{data.leaveId}}</td>
+              <td>{{data.startDate | date:'mediumDate'}}</td>
+              <td>{{data.endDate | date:'mediumDate'}}</td>
+              <td>{{data.startTime}}</td>
+              <td>{{data.endTime}}</td>
+              <td>{{data.leaveType == 0 ? "Full Day" : "Partial" }}</td>
+              <td>{{data.description}}</td>
+            </tr>
+          </tbody>
         </nz-table>
-
-
-    </div>
-</div>
+      </nz-col>
+    </nz-row>
+  </div>
+  
