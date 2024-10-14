@@ -272,6 +272,7 @@ export class FullCalendarComponent {
   }
 
   ngOnInit() {
+    
   }
 
   fetchEvents(fetchInfo: any, successCallback: Function) {

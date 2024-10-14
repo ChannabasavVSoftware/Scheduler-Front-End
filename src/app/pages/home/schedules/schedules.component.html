@@ -1,73 +1,62 @@
 <div class="Leave">
-    <div class="LeaveInput">
-        
-        <nz-card  class="LeaveInput" style="padding: 30px;">
-            <p style="font-size:25px; text-align:center" >Add a New Schedule</p>
-            
     
+    <div class="LeaveInput">
+
+        <nz-card class="LeaveInput" style="padding: 30px;">
+            <p style="font-size:25px; text-align:center">Add a New Schedule</p>
+
+
             <p class="LeaveAttribute">Select the Day :</p>
-           
+
             <datalist id="Days">
                 <option *ngFor="let Day of Days" [value]="Day"></option>
-            </datalist> 
-            <input nz-input placeholder="Enter the Day"  list="Days" [(ngModel)]="SelectedDay" class="LeaveAttributeInput" /> 
+            </datalist>
+            <input nz-input placeholder="Enter the Day" list="Days" [(ngModel)]="SelectedDay"
+                class="LeaveAttributeInput" />
 
             <p class="LeaveAttribute">Enter Start Time :</p>
-            <nz-time-picker
-            [(ngModel)]="StartTime"
-            [nzUse12Hours]="false"
-            
-            (ngModelChange)="log($event)"
-            [nzFormat]="'HH:mm'"
-          ></nz-time-picker>
+            <nz-time-picker [(ngModel)]="StartTime" [nzUse12Hours]="false" (ngModelChange)="log($event)"
+                [nzFormat]="'HH:mm'"></nz-time-picker>
 
-          <p class="LeaveAttribute">Enter End Time :</p>
-            <nz-time-picker
-            [(ngModel)]="EndTime"
-            [nzUse12Hours]="false"
-            (ngModelChange)="log($event)"
-            nzFormat="h:mm a"
-          ></nz-time-picker>
+            <p class="LeaveAttribute">Enter End Time :</p>
+            <nz-time-picker [(ngModel)]="EndTime" [nzUse12Hours]="false" (ngModelChange)="log($event)"
+                nzFormat="h:mm a"></nz-time-picker>
 
-            <button class="AddPatient" 
-            nz-button nzType="primary" 
-            style="width:100%; height:40px; margin-top: 20px;"
-            (click)="CreateNewSchedule()"
-            >Add Schedule</button>
+            <button class="AddPatient" nz-button nzType="primary" style="width:100%; height:40px; margin-top: 20px;"
+                (click)="CreateNewSchedule()">Add Schedule</button>
 
         </nz-card>
     </div>
 
     <div class="LeaveTable">
-        <nz-table #basicTable [nzData]="listOfData"  >
+        <nz-table #basicTable [nzData]="listOfData">
             <thead>
                 <tr>
                     <th>Schedule ID</th>
                     <th>Day</th>
-                    
+
                     <th>Start Time</th>
                     <th>End Time</th>
                     <th>Remove Schedule</th>
                 </tr>
             </thead>
             <tbody>
-               
-            <tr *ngFor="let Schedule of DoctorSchedules" >
-              <td>{{ Schedule.id }}</td>
-              <td>{{
-                 Schedule.day==0?"Sunday" 
-                 : Schedule.day==1?"Monday" 
-                 : Schedule.day==2?"Tuesday" 
-                 : Schedule.day==3?"Wednesday"
-                 : Schedule.day==4?"Thursday"
-                 : Schedule.day==5?"Friday"
-                 : "Saturday" }}</td>
-              <td>{{ Schedule.startTime }}</td>
-              <td>{{ Schedule.endTime}}</td>
-             <td>
-                <a>Remove</a>
-            </td>
-        </tr>
-    </tbody>
-    </nz-table>
 
+                <tr *ngFor="let Schedule of DoctorSchedules">
+                    <td>{{ Schedule.id }}</td>
+                    <td>{{
+                        Schedule.day==0?"Sunday"
+                        : Schedule.day==1?"Monday"
+                        : Schedule.day==2?"Tuesday"
+                        : Schedule.day==3?"Wednesday"
+                        : Schedule.day==4?"Thursday"
+                        : Schedule.day==5?"Friday"
+                        : "Saturday" }}</td>
+                    <td>{{ Schedule.startTime }}</td>
+                    <td>{{ Schedule.endTime}}</td>
+                    <td>
+                        <a>Remove</a>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>

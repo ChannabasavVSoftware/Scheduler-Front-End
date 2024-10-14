@@ -25,7 +25,6 @@ export class SidebarService {
       isVisible: true,
       expandStatus: false,
     },
- 
     {
       name: 'addpatient',
       id: 104,

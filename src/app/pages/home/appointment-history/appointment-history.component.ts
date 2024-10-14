@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { CommunicationService } from 'src/app/services/communication.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 interface Appointment {
   AppointmentID: string;
@@ -19,12 +20,23 @@ interface Appointment {
 })
 export class AppointmentHistoryComponent {
   AppointmentHistory: any;
-  constructor(private _CommunicationService: CommunicationService, private _CommonService: CommonService) {
+  constructor(private _CommunicationService: CommunicationService, private _CommonService: CommonService,private notification:NzNotificationService) {
 
   }
 
   ngOnInit() {
     this.FetchUserDetails();
+  }
+
+  showNotification(title:string,message:string): void {
+    this.notification
+      .blank(
+        title,
+        message
+      )
+      .onClick.subscribe(() => {
+        console.log('notification clicked!');
+      });
   }
 
   FetchUserDetails() {
@@ -61,7 +73,9 @@ export class AppointmentHistoryComponent {
     this._CommunicationService.CancelAppointment(TempAppointment).subscribe({
       next:(response)=>{
         console.log(response);
-        Appointment.status=2;
+        this.showNotification("Appointment cancelled sucessfully...","")
+        this.GetPatientAppointmentHistory()
+        // Appointment.status=2;
       },
       error:(error)=>{
         console.log("Error Occured : "+error);

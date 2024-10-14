@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommunicationService } from 'src/app/services/communication.service';
 import { DatePipe } from '@angular/common';
 import { CommonService } from 'src/app/services/common.service';
-
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'app-book-appointment',
@@ -11,23 +11,40 @@ import { CommonService } from 'src/app/services/common.service';
 })
 
 export class BookAppointmentComponent {
-  
-  constructor(private _CS: CommunicationService, private datePipe: DatePipe, public _CommonService: CommonService) {
-    
+
+  constructor(private _CS: CommunicationService, private datePipe: DatePipe, public _CommonService: CommonService, private notification: NzNotificationService) {
+
     this.FetchUserDetails();
-    
+
   }
-  
-  ngOnInit(){
+
+  ngOnInit() {
   }
-  
-  
+
+  showNotification(title: string, message: string): void {
+    this.notification
+      .blank(
+        title,
+        message
+      )
+      .onClick.subscribe(() => {
+        console.log('notification clicked!');
+      });
+  }
+
+  clearInput() {
+    this.DoctorName = null;
+    this.selectedDate = null;
+    this.SelectedSlotId = null;
+    this.Slots=null;
+  }
+
   FetchUserDetails() {
 
     this._CS.GetUserDetails(localStorage.getItem('username')).subscribe({
       next: (response: any) => {
         this._CommonService.PatientDetails = response.patient;
-        this._CommonService.DoctorDetails=response.doctor;
+        this._CommonService.DoctorDetails = response.doctor;
         const PatientId = localStorage.getItem('SelectedPatient');
         this._CommonService.SelectedPatient = response.patient.find(p => p.patientId == PatientId)
         // this.GetPatientAppointmentHistory();
@@ -59,12 +76,12 @@ export class BookAppointmentComponent {
 
   footerRender = (): string => '';
 
-  DisabledDate = (current:Date):boolean=>{
-    return current< new Date()
+  DisabledDate = (current: Date): boolean => {
+    return current < new Date()
   }
 
 
-  
+
   GetSlots() {
 
     this.selectedDate = this.datePipe.transform(this.selectedDate, 'fullDate');
@@ -76,6 +93,13 @@ export class BookAppointmentComponent {
       },
       error: (error) => {
 
+        console.log(error.error.status);
+        if (error.error.status == "Leave") {
+          this.showNotification("Doctor is on Leave...", "")
+        } else if (error.error.status == "NotScheduled") {
+          this.showNotification("Doctor is not scheduled on the selected date...", "Please select another date.")
+        }
+        this.clearInput();
       }
     })
   }
@@ -101,14 +125,18 @@ export class BookAppointmentComponent {
     this._CS.BookAppointment(Appointment).subscribe({
       next: (response: any) => {
         console.log(response);
-        this.AppointmentID = response.appointmentId;
+        // this.AppointmentID = response.appointmentId;
+        // this[modalVariableName] = true;
+        this.showNotification("Appointment booked sucessfully", `Your appointment ID is ${response.appointmentId}.`)
+        this.GetSlots();
+        this.clearInput(); 
       },
       error: (error) => {
         console.log(error);
 
+
       }
     });
-    this[modalVariableName] = true;
   }
 
   onIsVisibleChange(modalVariableName: string, isVisible: boolean): void {
@@ -140,6 +168,6 @@ export class BookAppointmentComponent {
 
 
 
-  
+
 }
 

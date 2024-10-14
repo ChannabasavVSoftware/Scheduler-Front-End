@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommunicationService } from 'src/app/services/communication.service';
 import { DatePipe } from '@angular/common';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { setSeconds } from 'date-fns';
 interface Appointment {
   AppointmentID: string;
   DoctorName: string;
@@ -18,11 +20,11 @@ interface Appointment {
 
 export class SchedulesComponent {
 
-  constructor(private _CommunicationService: CommunicationService, private _datePipe: DatePipe) {
+  constructor(private _CommunicationService: CommunicationService, private _datePipe: DatePipe, private notification: NzNotificationService) {
 
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.GetSchedules(1);
   }
 
@@ -34,7 +36,19 @@ export class SchedulesComponent {
   SelectedDay: string;
   StartTime: any;
   EndTime: any;
-  DoctorSchedules:any;
+  DoctorSchedules: any;
+
+
+  showNotification(title:string,message:string): void {
+    this.notification
+      .blank(
+        title,
+        message
+      )
+      .onClick.subscribe(() => {
+        console.log('notification clicked!');
+      });
+  }
 
   CreateNewSchedule() {
     let Day;
@@ -48,7 +62,10 @@ export class SchedulesComponent {
       case 'Friday': Day = 5; break;
       case 'Saturday': Day = 6; break;
     }
-    
+
+    this.StartTime=this.StartTime.setSeconds(0);
+    this.EndTime=this.EndTime.setSeconds(0);
+
     const TempStartTime = this._datePipe.transform(this.StartTime, 'HH:mm:ss');
     const TempEndTime = this._datePipe.transform(this.EndTime, 'HH:mm:ss');
 
@@ -63,25 +80,37 @@ export class SchedulesComponent {
 
 
     this._CommunicationService.CreateNewSchedule(NewSchedule).subscribe({
-      next: (response) => {
+      next: (response : any) => {
         console.log(NewSchedule);
         console.log("Success...");
+        console.log(response);
+        
+        this.showNotification("Schedule created successfully",`Start Time / End Time : ${response.startTime} / ${response.endTime}`)
+        this.StartTime=null;
+        this.EndTime=null;
+        this.SelectedDay=null;
+        this.GetSchedules(1)
+
 
       },
       error: (error) => {
         console.log(error.error);
+        this.showNotification("Schedule creation failed",error.error);
+        this.StartTime=null;
+        this.EndTime=null;
+        this.SelectedDay=null;
       }
     })
 
   }
 
 
-  GetSchedules(DoctorId){
+  GetSchedules(DoctorId) {
     this._CommunicationService.GetSchedules(DoctorId).subscribe({
-      next:(response)=>{
-        this.DoctorSchedules=response;
+      next: (response) => {
+        this.DoctorSchedules = response;
       },
-      error:(error)=>{
+      error: (error) => {
 
       }
     })
