@@ -12,7 +12,7 @@ type ThemeType = 'dark' | 'default' | 'blue' | 'green';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrl: './header.component.less',
-  
+
 })
 
 
@@ -21,9 +21,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public environment = environment;
   selectedTheme: ThemeType = 'blue';
-  public serverConnectionStatus : boolean;
-  PatientDetails:any;
-    
+  public serverConnectionStatus: boolean;
+  PatientDetails: any;
+  SelectedPatient: any;
 
 
   themeOptions = [
@@ -32,19 +32,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
     { label: 'Blue Theme', value: 'blue' },
     { label: 'Green Theme', value: 'green' },
   ];
-  constructor(public _authService : authService,
-    public _commonService : CommonService,
+  constructor(public _authService: authService,
+    public _commonService: CommonService,
     private themeService: ThemeService,
-    public sidebarservice: SidebarService ){  
-      
-      this.PatientDetails=_commonService.PatientDetails;
-    }
-    
-    ngOnInit(): void {
-      this.loadTheme()
-    }
+    public sidebarservice: SidebarService) {
 
-  updateSidebar(){
+    this.PatientDetails = _commonService.PatientDetails;
+  }
+
+  ngOnInit(): void {
+    this.loadTheme()
+
+    this._commonService.SelectedPatient$.subscribe(value => {
+      this.SelectedPatient = value;
+    })
+    
+  }
+
+  updateSidebar() {
     this._commonService.isSidebarCollapsed = !this._commonService.isSidebarCollapsed
   }
 
@@ -53,21 +58,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const selectedTheme = this.selectedTheme as ThemeType;
     this.themeService.currentTheme = selectedTheme;
     this.themeService.loadTheme();
-    
+
     // Store the selected theme in localStorage
     const uiSettings = { theme: selectedTheme };
     localStorage.setItem('uiSettings', JSON.stringify(uiSettings));
   }
-  
-  
+
+
 
   ngOnDestroy() {
-   
+
   }
 
 
-  ChangeUser(Patient:any){
-    this._commonService.SelectedPatient=Patient;
+  ChangeUser(Patient: any) {
+    this._commonService.SelectedPatient = Patient;
   }
 }
 

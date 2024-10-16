@@ -72,32 +72,6 @@
 
             </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             <!-- *ngIf="SelectedDoctor && selectedDate && PatientName && SelectedSlot" -->
             <div style="font-size: 20px; margin-left:30px; margin-top:20px;">Appointment Details
 
@@ -118,11 +92,6 @@
                     Selected Slot : {{SelectedSlotId}}
                 </div>
 
-                <app-modal [title]="'Appointment booked successfully'" [width]="'600px'" [modalClass]="'new-modal1'"
-                    [(isVisible)]="isModalTestVisible"
-                    (isVisibleChange)="onIsVisibleChange('isModalTestVisible',$event)">
-                    <p>Your appointment ID is {{AppointmentID}} .</p>
-                </app-modal>
 
                 <button nz-button nzType="primary"
                     [disabled]="!DoctorName || !selectedDate || !SelectedSlotId"
@@ -197,9 +166,12 @@
             <div *ngIf="!selectedDate || !DoctorName">Select appointment date and doctor to view the slots... </div>
             <div *ngIf="selectedDate && DoctorName" class="SlotBlock" >
 
-                <div  *ngFor="let slot of this.Slots"
+                <div  
+                *ngFor="let slot of this.Slots"
                 [ngClass]="{'U-Slot':slot.status=='Unavailable','selected-slot': slot.slotId === SelectedSlotId}"
-                (click)="AddSlot(slot)" class="Slot">
+                (click)="AddSlot(slot)"
+                class="Slot"
+                >
                 {{slot.slotId}}
                 <div>{{slot.startTime}}</div>
                 

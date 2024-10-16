@@ -14,11 +14,27 @@ export class BookAppointmentComponent {
 
   constructor(private _CS: CommunicationService, private datePipe: DatePipe, public _CommonService: CommonService, private notification: NzNotificationService) {
 
-    this.FetchUserDetails();
-
+    
   }
-
+  
   ngOnInit() {
+    
+    this._CommonService.DoctorDetails$.subscribe(value=>{
+      this.DoctorDetails = value;
+    })
+    
+    this._CommonService.PatientDetails$.subscribe(value=>{
+      this.PatientDetails = value;
+    })
+    
+    this._CommonService.SelectedPatient$.subscribe(value=>{
+      this.SelectedPatient=value;
+      this.PatientName=value.name?value.name:null;
+      
+    })
+    
+    this.FetchUserDetails();
+    
   }
 
   showNotification(title: string, message: string): void {
@@ -43,14 +59,26 @@ export class BookAppointmentComponent {
 
     this._CS.GetUserDetails(localStorage.getItem('username')).subscribe({
       next: (response: any) => {
-        this._CommonService.PatientDetails = response.patient;
-        this._CommonService.DoctorDetails = response.doctor;
+        
+        
         const PatientId = localStorage.getItem('SelectedPatient');
+        // // this._CommonService.PatientDetails = response.patient;
+        // // this._CommonService.DoctorDetails = response.doctor;
         this._CommonService.SelectedPatient = response.patient.find(p => p.patientId == PatientId)
+        
         // this.GetPatientAppointmentHistory();
-        this.PatientDetails = this._CommonService.PatientDetails;
-        this.DoctorDetails = this._CommonService.DoctorDetails;
-        this.PatientName = this._CommonService.SelectedPatient.name;
+        
+        // this.PatientDetails = this._CommonService.PatientDetails;
+        // this.DoctorDetails = this._CommonService.DoctorDetails;
+        // this.PatientName = this._CommonService.SelectedPatient.name;
+        
+        this._CommonService.PatientDetailsSubject.next(response.patient);
+        this._CommonService.DoctorDetailsSubject.next(response.doctor);
+        this._CommonService.SelectedPatientSubject.next(response.patient.find(p=>p.patientId == PatientId))
+        
+        console.log("Patient Details ",this.PatientDetails);
+        
+
       }
     })
   }
@@ -62,12 +90,7 @@ export class BookAppointmentComponent {
   SelectedSlot: any;
   SelectedSlotId: any;
   AppointmentTime: any;
-
-  AppointmentID: string = "APP123";
-
-  ShowSlots: boolean = true;
-  isModalVisible = false;
-  isModalTestVisible = false;
+  SelectedPatient : any;
 
   UserDetailsResponse: any;
   PatientDetails: any;
@@ -76,14 +99,14 @@ export class BookAppointmentComponent {
 
   footerRender = (): string => '';
 
-  DisabledDate = (current: Date): boolean => {
-    return current < new Date()
-  }
-
-
+  // DisabledDate = (current: Date): boolean => {
+  //   return current < new Date()
+  // }
+  DisabledDate = (current: Date): boolean => { 
+    return current < new Date(new Date().setHours(0, 0, 0, 0));
+}
 
   GetSlots() {
-
     this.selectedDate = this.datePipe.transform(this.selectedDate, 'fullDate');
     const Doctor = this.DoctorDetails.find(d => d.name == this.DoctorName);
 
@@ -119,20 +142,16 @@ export class BookAppointmentComponent {
       appointmentTime: this.AppointmentTime
     }
 
-
-
-
     this._CS.BookAppointment(Appointment).subscribe({
       next: (response: any) => {
         console.log(response);
-        // this.AppointmentID = response.appointmentId;
-        // this[modalVariableName] = true;
         this.showNotification("Appointment booked sucessfully", `Your appointment ID is ${response.appointmentId}.`)
         this.GetSlots();
         this.clearInput(); 
       },
       error: (error) => {
         console.log(error);
+        this.showNotification("Appointment booking failed...",error.error)
 
 
       }
@@ -149,9 +168,11 @@ export class BookAppointmentComponent {
   }
 
   AddSlot(Slot) {
-    this.SelectedSlot = Slot;
-    this.AppointmentTime = Slot.startTime;
-    this.SelectedSlotId = `${Slot.slotId} - ${Slot.startTime}`;
+    if(Slot.status!="Unavailable"){
+      this.SelectedSlot = Slot;
+      this.AppointmentTime = Slot.startTime;
+      this.SelectedSlotId = `${Slot.slotId} - ${Slot.startTime}`;
+    }
   }
 
 
@@ -165,9 +186,6 @@ export class BookAppointmentComponent {
 
     return date.toISOString();
   }
-
-
-
 
 }
 

@@ -4,6 +4,7 @@ import { OktaAuthStateService, OKTA_AUTH } from '@okta/okta-angular';
 import { OktaAuth } from '@okta/okta-auth-js';
 import { environment } from 'src/environments/environment';
 import { CommunicationService } from './communication.service';
+import { BehaviorSubject } from 'rxjs';
 
 
 interface Claim {
@@ -32,14 +33,17 @@ export class CommonService implements OnInit, AfterViewInit {
   idToken;
   claims: Array<Claim>;
 
+  public PatientDetailsSubject : any = new BehaviorSubject(null);
+  public DoctorDetailsSubject : any = new BehaviorSubject(null);
+  public SelectedPatientSubject : any = new BehaviorSubject(null);
 
+  PatientDetails$ = this.PatientDetailsSubject.asObservable();
+  DoctorDetails$ = this.DoctorDetailsSubject.asObservable();
+  SelectedPatient$ = this.SelectedPatientSubject.asObservable();
+  
   PatientDetails:any;
   DoctorDetails:any;
   SelectedPatient:any="";
-
-
-  
-
 
   // Max Survey Client //
 

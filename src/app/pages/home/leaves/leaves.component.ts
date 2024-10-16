@@ -43,7 +43,7 @@ export class LeavesComponent {
   dateRange: Date[] = [];
   partialDate: Date;
 
-  todayDate:Date = new Date();
+  todayDate:Date = new Date(new Date().setHours(0, 0, 0, 0));
 
   time: Date | null = null;
   size: 'large' | 'small' | 'default' = 'default';
@@ -134,7 +134,7 @@ export class LeavesComponent {
 
   disableLeaveDates = (current: Date): boolean => {
     const isHoliday = this.checkHoliday(current);
-3
+
     const isFullDayLeave = this.listOfLeave.some(leave => {
       const startDate = new Date(leave.startDate);
       const endDate = new Date(leave.endDate);
